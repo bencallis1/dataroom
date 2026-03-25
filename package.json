@@ -188,7 +188,8 @@
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "prisma": "6.5.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^48.10.2"
   },
   "overrides": {
     "react-notion-x": {

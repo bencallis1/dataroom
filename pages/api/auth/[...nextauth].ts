@@ -254,11 +254,11 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     session: async ({ session, token }) => {
-      (session.user as CustomUser) = {
+      session.user = {
         id: token.sub,
         // @ts-ignore
-        ...(token || session).user,
-      };
+        ...(token.user || session.user),
+      } as CustomUser;
       return session;
     },
   },
