@@ -31,6 +31,20 @@ import { AwayPoster } from "./away-poster";
 // custom styles for notion
 import "@/styles/custom-notion-styles.css";
 
+/** Get page title from a notion record map block entry (Block or { role, value: Block }) */
+function getBlockTitle(entry: unknown): string {
+  if (!entry || typeof entry !== "object") return "Untitled";
+  const block =
+    "value" in entry && entry.value && typeof entry.value === "object"
+      ? (entry as { value: Record<string, unknown> }).value
+      : (entry as Record<string, unknown>);
+  const title = (block?.properties as { title?: unknown } | undefined)?.title;
+  const first = Array.isArray(title) ? title[0] : undefined;
+  const firstCell = Array.isArray(first) ? first[0] : undefined;
+  if (firstCell != null) return String(firstCell);
+  return "Untitled";
+}
+
 const Collection = dynamic(() =>
   import("react-notion-x/build/third-party/collection").then(
     (m) => m.Collection,
@@ -288,9 +302,7 @@ export const NotionPage = ({
           setRecordMapState(currentRecordMap);
           const firstBlockId = Object.keys(currentRecordMap.block)[0];
           const firstBlock = currentRecordMap.block[firstBlockId];
-          setSubTitle(
-            firstBlock?.value?.properties?.title?.[0]?.[0] || "Untitled",
-          );
+          setSubTitle(getBlockTitle(firstBlock));
           // Scroll to top when changing subpages
           window.scrollTo({ top: 0, behavior: "smooth" });
           return;
@@ -310,10 +322,8 @@ export const NotionPage = ({
           recordMapCache.current[pageId] = newRecordMap;
           setRecordMapState(newRecordMap);
           const firstBlockId = Object.keys(newRecordMap.block)[0];
-          const firstBlock = recordMap.block[firstBlockId];
-          setSubTitle(
-            firstBlock?.value?.properties?.title?.[0]?.[0] || "Untitled",
-          );
+          const firstBlock = newRecordMap.block[firstBlockId];
+          setSubTitle(getBlockTitle(firstBlock));
           // Scroll to top after loading new subpage
           window.scrollTo({ top: 0, behavior: "smooth" });
         } catch (error) {
@@ -326,7 +336,7 @@ export const NotionPage = ({
         // get the first item in the recordMap.block object
         const firstBlockId = Object.keys(recordMap.block)[0];
         const firstBlock = recordMap.block[firstBlockId];
-        setTitle(firstBlock?.value?.properties?.title?.[0]?.[0] || "Untitled");
+        setTitle(getBlockTitle(firstBlock));
         // Scroll to top when returning to main page
         window.scrollTo({ top: 0, behavior: "smooth" });
       }

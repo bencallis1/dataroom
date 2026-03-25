@@ -1,8 +1,24 @@
 import { NotionAPI } from "notion-client";
+import type { Block } from "notion-types";
 import { ExtendedRecordMap } from "notion-types";
 import { getPageContentBlockIds, parsePageId } from "notion-utils";
 
 import notion from "./index";
+
+/** Get Block from record map entry (may be Block or nested { role, value }) */
+function getBlock(entry: unknown): Block | undefined {
+  if (!entry || typeof entry !== "object") return undefined;
+  let current: unknown = entry;
+  while (current && typeof current === "object" && "value" in current) {
+    const next = (current as { value: unknown }).value;
+    if (next && typeof next === "object" && "properties" in next)
+      return next as Block;
+    current = next;
+  }
+  return typeof current === "object" && current && "properties" in current
+    ? (current as Block)
+    : undefined;
+}
 
 /**
  * Extracts all page reference IDs from rich text decorations in the recordMap.
@@ -109,7 +125,7 @@ export async function fetchMissingPageReferences(
 
   // Iterate through all blocks to find page references in their properties
   for (const blockId of Object.keys(recordMap.block)) {
-    const block = recordMap.block[blockId]?.value;
+    const block = getBlock(recordMap.block[blockId]);
     if (!block?.properties) continue;
 
     // Check all properties for page references
@@ -133,7 +149,7 @@ export async function fetchMissingPageReferences(
     if (newBlocks?.recordMap?.block) {
       recordMap.block = {
         ...recordMap.block,
-        ...newBlocks.recordMap.block,
+        ...(newBlocks.recordMap.block as unknown as typeof recordMap.block),
       };
     }
     // Normalize again after merging new blocks (getBlocks may return double-nested format)
@@ -154,7 +170,7 @@ export const addSignedUrls: NotionAPI["addSignedUrls"] = async ({
   }
 
   const allFileInstances = contentBlockIds.flatMap((blockId) => {
-    const block = recordMap.block[blockId]?.value;
+    const block = getBlock(recordMap.block[blockId]);
 
     if (
       block &&

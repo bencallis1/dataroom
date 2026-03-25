@@ -14,18 +14,19 @@ const nextConfig = {
       ? process.env.NEXT_PUBLIC_BASE_URL
       : undefined,
   async redirects() {
+    const appBaseHost = process.env.NEXT_PUBLIC_APP_BASE_HOST;
+    const rootRedirect = {
+      source: "/",
+      destination: "/dashboard",
+      permanent: false,
+      ...(appBaseHost
+        ? {
+            has: [{ type: "host", value: appBaseHost }],
+          }
+        : {}),
+    };
     return [
-      {
-        source: "/",
-        destination: "/dashboard",
-        permanent: false,
-        has: [
-          {
-            type: "host",
-            value: process.env.NEXT_PUBLIC_APP_BASE_HOST,
-          },
-        ],
-      },
+      rootRedirect,
       {
         // temporary redirect set on 2025-10-22
         source: "/view/cmdn06aw00001ju04jgsf8h4f",

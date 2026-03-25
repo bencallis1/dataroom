@@ -7,18 +7,17 @@ import {
 import { decryptSlackToken } from "@/lib/integrations/slack/utils";
 
 export class SlackClient {
-  private clientId: string;
-  private clientSecret: string;
+  private clientId?: string;
+  private clientSecret?: string;
   private baseUrl = "https://slack.com/api";
   // private oauthUrl = "https://slack.com/oauth/v2/authorize";
 
   constructor() {
-    this.clientId = process.env.SLACK_CLIENT_ID as string;
-    this.clientSecret = process.env.SLACK_CLIENT_SECRET as string;
-
-    if (!this.clientId || !this.clientSecret) {
-      throw new Error("SLACK_CLIENT_ID and SLACK_CLIENT_SECRET must be set");
-    }
+    // Intentionally do not throw at import/build time.
+    // Most Slack API operations (e.g. chat.postMessage) only require a bot token.
+    // OAuth-related methods should validate these before use.
+    this.clientId = process.env.SLACK_CLIENT_ID;
+    this.clientSecret = process.env.SLACK_CLIENT_SECRET;
   }
 
   // private decryptToken(accessToken: string): string {
