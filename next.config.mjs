@@ -42,6 +42,7 @@ const nextConfig = {
   },
   async headers() {
     const isDev = process.env.NODE_ENV === "development";
+    const webhookBaseHost = process.env.NEXT_PUBLIC_WEBHOOK_BASE_HOST;
 
     return [
       {
@@ -129,21 +130,25 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: "/services/:path*",
-        has: [
-          {
-            type: "host",
-            value: process.env.NEXT_PUBLIC_WEBHOOK_BASE_HOST,
-          },
-        ],
-        headers: [
-          {
-            key: "X-Robots-Tag",
-            value: "noindex",
-          },
-        ],
-      },
+      ...(webhookBaseHost
+        ? [
+            {
+              source: "/services/:path*",
+              has: [
+                {
+                  type: "host",
+                  value: webhookBaseHost,
+                },
+              ],
+              headers: [
+                {
+                  key: "X-Robots-Tag",
+                  value: "noindex",
+                },
+              ],
+            },
+          ]
+        : []),
       {
         source: "/api/webhooks/services/:path*",
         headers: [
