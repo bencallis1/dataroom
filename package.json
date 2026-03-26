@@ -22,6 +22,11 @@
   "prisma": {
     "schema": "prisma/schema"
   },
+  "pnpm": {
+    "overrides": {
+      "notion-types": "7.10.0"
+    }
+  },
   "dependencies": {
     "@ai-sdk/google-vertex": "^4.0.79",
     "@ai-sdk/openai": "^3.0.41",
@@ -197,6 +202,7 @@
     "vercel": "^48.10.2"
   },
   "overrides": {
+    "notion-types": "7.10.0",
     "react-notion-x": {
       "react-pdf": "8.0.2"
     },
