@@ -51,10 +51,6 @@ export default async function handle(
         return res.status(401).end("Unauthorized");
       }
 
-      if (team.plan.includes("free")) {
-        return res.status(403).end("Forbidden");
-      }
-
       let userAgent: {
         rows?: number | undefined;
         data: {
@@ -79,14 +75,7 @@ export default async function handle(
       }
 
       const userAgentData = userAgent.data[0];
-      // Include country and city for business and datarooms plans
-      if (team.plan.includes("business") || team.plan.includes("datarooms")) {
-        return res.status(200).json(userAgentData);
-      } else {
-        // For other plans, exclude country and city
-        const { country, city, ...remainingResponse } = userAgentData;
-        return res.status(200).json(remainingResponse);
-      }
+      return res.status(200).json(userAgentData);
     } catch (error) {
       errorhandler(error, res);
     }

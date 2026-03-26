@@ -1,5 +1,3 @@
-import { get } from "@vercel/edge-config";
-
 export type BetaFeatures =
   | "tokens"
   | "incomingWebhooks"
@@ -17,8 +15,6 @@ export type BetaFeatures =
   | "ai"
   | "sso"
   | "textSelection";
-
-type BetaFeaturesRecord = Record<BetaFeatures, string[]>;
 
 export const getFeatureFlags = async ({ teamId }: { teamId?: string }) => {
   const teamFeatures: Record<BetaFeatures, boolean> = {
@@ -40,30 +36,7 @@ export const getFeatureFlags = async ({ teamId }: { teamId?: string }) => {
     textSelection: false,
   };
 
-  // Return all features as false if edge config is not available
-  if (!process.env.EDGE_CONFIG) {
-    return Object.fromEntries(
-      Object.entries(teamFeatures).map(([key, _v]) => [key, false]),
-    );
-  } else if (!teamId) {
-    return teamFeatures;
-  }
-
-  let betaFeatures: BetaFeaturesRecord | undefined = undefined;
-
-  try {
-    betaFeatures = await get("betaFeatures");
-  } catch (e) {
-    console.error(`Error getting beta features: ${e}`);
-  }
-
-  if (betaFeatures) {
-    for (const [featureFlag, teamIds] of Object.entries(betaFeatures)) {
-      if (teamIds.includes(teamId)) {
-        teamFeatures[featureFlag as BetaFeatures] = true;
-      }
-    }
-  }
-
-  return teamFeatures;
+  return Object.fromEntries(
+    Object.entries(teamFeatures).map(([key]) => [key, true]),
+  ) as Record<BetaFeatures, boolean>;
 };
