@@ -134,6 +134,7 @@
     "notion-utils": "^7.7.3",
     "nuqs": "^2.8.9",
     "openai": "^6.25.0",
+    "openid-client": "^6.8.2",
     "pdf-lib": "^1.17.1",
     "postcss": "^8.5.8",
     "posthog-js": "^1.358.1",

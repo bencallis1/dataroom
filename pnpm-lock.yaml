@@ -329,6 +329,9 @@ importers:
       openai:
         specifier: ^6.25.0
         version: 6.32.0(ws@8.20.0)(zod@3.25.76)
+      openid-client:
+        specifier: ^6.8.2
+        version: 6.8.2
       pdf-lib:
         specifier: ^1.17.1
         version: 1.17.1
@@ -7771,6 +7774,9 @@ packages:
 
   openid-client@6.5.0:
     resolution: {integrity: sha512-fAfYaTnOYE2kQCqEJGX9KDObW2aw7IQy4jWpU/+3D3WoCFLbix5Hg6qIPQ6Js9r7f8jDUmsnnguRNCSw4wU/IQ==}
+
+  openid-client@6.8.2:
+    resolution: {integrity: sha512-uOvTCndr4udZsKihJ68H9bUICrriHdUVJ6Az+4Ns6cW55rwM5h0bjVIzDz2SxgOI84LKjFyjOFvERLzdTUROGA==}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -18829,6 +18835,11 @@ snapshots:
       oidc-token-hash: 5.2.0
 
   openid-client@6.5.0:
+    dependencies:
+      jose: 6.2.2
+      oauth4webapi: 3.8.5
+
+  openid-client@6.8.2:
     dependencies:
       jose: 6.2.2
       oauth4webapi: 3.8.5
