@@ -80,9 +80,19 @@ export default function VisitorVideoChart({
           <Tooltip
             content={({ active, payload, label }) => {
               if (active && payload && payload.length) {
+                const labelSeconds =
+                  typeof label === "number"
+                    ? label
+                    : typeof label === "string"
+                      ? Number.parseFloat(label)
+                      : NaN;
                 return (
                   <div className="space-y-1 rounded-md border bg-background p-2 text-sm">
-                    <p className="font-medium">{formatTime(label)}</p>
+                    <p className="font-medium">
+                      {Number.isFinite(labelSeconds)
+                        ? formatTime(labelSeconds)
+                        : "—"}
+                    </p>
                     <div className="space-y-0.5 text-muted-foreground">
                       <p>Playback count: {payload[0].value}</p>
                     </div>
