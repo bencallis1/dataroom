@@ -155,6 +155,7 @@
     "react-resizable-panels": "^3.0.6",
     "react-textarea-autosize": "^8.5.9",
     "react-zoom-pan-pinch": "^3.7.0",
+    "recharts": "^3.8.1",
     "resend": "^6.9.3",
     "sanitize-html": "^2.17.1",
     "shiki": "^3.23.0",
