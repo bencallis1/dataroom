@@ -62,19 +62,35 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return IncomingWebhookMiddleware(req);
   }
 
+  // App paths always go to AppMiddleware regardless of domain
+  const isAppPath =
+    path === "/" ||
+    path.startsWith("/dashboard") ||
+    path.startsWith("/login") ||
+    path.startsWith("/documents") ||
+    path.startsWith("/datarooms") ||
+    path.startsWith("/settings") ||
+    path.startsWith("/visitors") ||
+    path.startsWith("/branding") ||
+    path.startsWith("/welcome") ||
+    path.startsWith("/pending-approval") ||
+    path.startsWith("/workflows") ||
+    path.startsWith("/auth/") ||
+    path.startsWith("/verify") ||
+    path.startsWith("/unsubscribe") ||
+    path.startsWith("/notification-preferences");
+
+  if (isAppPath) {
+    return AppMiddleware(req);
+  }
+
   // For custom domains, we need to handle them differently
   if (isCustomDomain(host || "")) {
     return DomainMiddleware(req);
   }
 
   // Handle standard papermark.com paths
-  if (
-    !path.startsWith("/view/") &&
-    !path.startsWith("/verify") &&
-    !path.startsWith("/unsubscribe") &&
-    !path.startsWith("/notification-preferences") &&
-    !path.startsWith("/auth/email")
-  ) {
+  if (!path.startsWith("/view/")) {
     return AppMiddleware(req);
   }
 
