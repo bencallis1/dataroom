@@ -70,11 +70,11 @@ export default function Login() {
             </Link>
             <Link href="/">
               <span className="text-balance text-3xl font-semibold text-gray-900">
-                Welcome to Papermark
+                Kensho Collective Portal
               </span>
             </Link>
             <h3 className="text-balance text-sm text-gray-800">
-              Share documents. Not attachments.
+              Projects, resources, and more.
             </h3>
           </div>
           {isSSORequired && (
