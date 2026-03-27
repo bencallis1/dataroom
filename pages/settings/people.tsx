@@ -157,6 +157,46 @@ export default function Billing() {
     toast.success("Teammate removed successfully!");
   };
 
+  const approveMember = async (userId: string) => {
+    const response = await fetch(
+      `/api/teams/${teamInfo?.currentTeam?.id}/members/${userId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "approve" }),
+      },
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      toast.error(error);
+      return;
+    }
+
+    await mutate(`/api/teams/${teamInfo?.currentTeam?.id}`);
+    toast.success("Member approved successfully!");
+  };
+
+  const rejectMember = async (userId: string) => {
+    const response = await fetch(
+      `/api/teams/${teamInfo?.currentTeam?.id}/members/${userId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reject" }),
+      },
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      toast.error(error);
+      return;
+    }
+
+    await mutate(`/api/teams/${teamInfo?.currentTeam?.id}`);
+    toast.success("Member rejected.");
+  };
+
   // resend invitation function
   const resendInvitation = async (invitation: { email: string } & any) => {
     const response = await fetch(
@@ -277,6 +317,52 @@ export default function Billing() {
             </div>
           </div>
 
+          {/* Pending approval section — only visible to admins */}
+          {isCurrentUserAdmin() &&
+            team?.users.some((u) => u.status === "PENDING") && (
+              <div className="mt-6">
+                <h4 className="mb-2 text-sm font-medium text-muted-foreground">
+                  Pending approval
+                </h4>
+                <ul className="divide-y rounded-lg border border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/10">
+                  {team.users
+                    .filter((u) => u.status === "PENDING")
+                    .map((member, index) => (
+                      <li
+                        key={index}
+                        className="flex items-center justify-between gap-4 px-6 py-4"
+                      >
+                        <div className="space-y-0.5">
+                          <p className="text-sm font-semibold">
+                            {member.user.name || member.user.email}
+                          </p>
+                          {member.user.name && (
+                            <p className="text-xs text-muted-foreground">
+                              {member.user.email}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            onClick={() => approveMember(member.userId)}
+                          >
+                            Approve
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => rejectMember(member.userId)}
+                          >
+                            Reject
+                          </Button>
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            )}
+
           <ul className="mt-6 divide-y rounded-lg border">
             {loading && (
               <div className="flex items-center justify-between px-10 py-4">
@@ -293,7 +379,7 @@ export default function Billing() {
                 </div>
               </div>
             )}
-            {team?.users.map((member, index) => (
+            {team?.users.filter((u) => u.status !== "PENDING").map((member, index) => (
               <li
                 className="flex items-center justify-between gap-12 overflow-auto px-10 py-4"
                 key={index}

@@ -8,7 +8,6 @@ import {
   buildFolderPathsFromHierarchy,
   collectDescendantIds,
 } from "@/lib/dataroom/build-folder-hierarchy";
-import { notifyDocumentDownload } from "@/lib/integrations/slack/events";
 import prisma from "@/lib/prisma";
 import { downloadJobStore } from "@/lib/redis-download-job-store";
 import { bulkDownloadTask } from "@/lib/trigger/bulk-download";
@@ -405,21 +404,6 @@ export default async function handler(
       skipDuplicates: true,
     });
 
-    if (view.link.teamId) {
-      void notifyDocumentDownload({
-        teamId: view.link.teamId,
-        documentId: undefined,
-        dataroomId,
-        linkId,
-        viewerEmail: view.viewerEmail ?? undefined,
-        viewerId: view.viewerId ?? undefined,
-        metadata: {
-          folderName: rootFolder.name,
-          documentCount: allDocuments.length,
-          isFolderDownload: true,
-        },
-      }).catch((err) => console.error("Error sending Slack notification:", err));
-    }
 
     const teamId = view.link.teamId!;
     const storageConfig = await getTeamStorageConfigById(teamId);

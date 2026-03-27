@@ -14,7 +14,6 @@ import { sendOtpVerificationEmail } from "@/lib/emails/send-email-otp-verificati
 import { getFeatureFlags } from "@/lib/featureFlags";
 import { getFile } from "@/lib/files/get-file";
 import { newId } from "@/lib/id-helper";
-import { notifyDocumentView } from "@/lib/integrations/slack/events";
 import prisma from "@/lib/prisma";
 import { ratelimit } from "@/lib/redis";
 import { parseSheet } from "@/lib/sheet";
@@ -690,20 +689,6 @@ export async function POST(request: NextRequest) {
             isPaused,
           }),
         );
-        if (!isPreview) {
-          waitUntil(
-            notifyDocumentView({
-              teamId: link.teamId!,
-              documentId,
-              linkId,
-              viewerEmail: email ?? undefined,
-              viewerId: viewer?.id ?? undefined,
-              teamIsPaused: isPaused,
-            }).catch((error) => {
-              console.error("Error sending Slack notification:", error);
-            }),
-          );
-        }
       }
 
       // Determine if AI agents should be enabled (requires both team and document level)

@@ -27,7 +27,6 @@ import { useIsAdmin } from "@/lib/hooks/use-is-admin";
 import { usePlan } from "@/lib/swr/use-billing";
 import useDataroomsSimple from "@/lib/swr/use-datarooms-simple";
 import useLimits from "@/lib/swr/use-limits";
-import { useSlackIntegration } from "@/lib/swr/use-slack-integration";
 import { nFormatter } from "@/lib/utils";
 
 import { NavMain } from "@/components/sidebar/nav-main";
@@ -45,12 +44,9 @@ import {
 import ProBanner from "../billing/pro-banner";
 import { Progress } from "../ui/progress";
 import { BadgeTooltip } from "../ui/tooltip";
-import SlackBanner from "./banners/slack-banner";
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const router = useRouter();
   const [showProBanner, setShowProBanner] = useState<boolean | null>(null);
-  const [showSlackBanner, setShowSlackBanner] = useState<boolean | null>(null);
   const { currentTeam, teams, setCurrentTeam, isLoading }: TeamContextType =
     useTeam() || initialState;
   const {
@@ -70,11 +66,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const linksLimit = limits?.links;
   const documentsLimit = limits?.documents;
 
-  // Check Slack integration status
-  const { integration: slackIntegration } = useSlackIntegration({
-    enabled: !!currentTeam?.id,
-  });
-
   // Check feature flags
   const { features } = useFeatureFlags();
 
@@ -89,11 +80,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       setShowProBanner(true);
     } else {
       setShowProBanner(false);
-    }
-    if (Cookies.get("hideSlackBanner") !== "slack-banner") {
-      setShowSlackBanner(true);
-    } else {
-      setShowSlackBanner(false);
     }
   }, []);
 
@@ -200,11 +186,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             url: "/settings/webhooks",
             current: router.pathname.includes("settings/webhooks"),
           },
-          {
-            title: "Slack",
-            url: "/settings/slack",
-            current: router.pathname.includes("settings/slack"),
-          },
           ...(isAdmin
             ? [
                 {
@@ -309,12 +290,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu className="group-data-[collapsible=icon]:hidden">
           <SidebarMenuItem>
             <div>
-              {/*
-               * Show Slack banner to all users if they haven't dismissed it and don't have Slack connected
-               */}
-              {!slackIntegration && showSlackBanner ? (
-                <SlackBanner setShowSlackBanner={setShowSlackBanner} />
-              ) : null}
               {/*
                * if user is free and showProBanner is true show pro banner
                */}

@@ -80,6 +80,11 @@ export default async function AppMiddleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // AUTHENTICATED — pending-approval page is always accessible for authenticated users
+  if (token?.email && path === "/pending-approval") {
+    return NextResponse.next();
+  }
+
   // AUTHENTICATED if the user was created in the last 10 seconds, redirect to "/welcome"
   if (
     token?.email &&

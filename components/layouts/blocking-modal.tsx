@@ -4,7 +4,7 @@ import { initialState } from "@/context/team-context";
 import { useTeam } from "@/context/team-context";
 import { TeamContextType } from "@/context/team-context";
 import { PlanEnum } from "@/ee/stripe/constants";
-import { InfoIcon, ShieldAlertIcon } from "lucide-react";
+import { ClockIcon, InfoIcon, ShieldAlertIcon } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
 import { usePlan } from "@/lib/swr/use-billing";
@@ -51,18 +51,22 @@ export const BlockingModal = () => {
   const isBlockedDueToTrial =
     currentUserTeam?.status === "BLOCKED_TRIAL_EXPIRED";
 
+  const isPendingApproval = currentUserTeam?.status === "PENDING";
+
   const shouldShowModal =
     (isFree && !isTrial && !isAdmin && multipleUsers && showModal) ||
-    isBlockedDueToTrial;
+    isBlockedDueToTrial ||
+    isPendingApproval;
 
   useEffect(() => {
     if (
       (isFree && !isTrial && !isAdmin && multipleUsers) ||
-      isBlockedDueToTrial
+      isBlockedDueToTrial ||
+      isPendingApproval
     ) {
       setShowModal(true);
     }
-  }, [isFree, isTrial, isAdmin, multipleUsers, isBlockedDueToTrial]);
+  }, [isFree, isTrial, isAdmin, multipleUsers, isBlockedDueToTrial, isPendingApproval]);
 
   useEffect(() => {
     if (shouldShowModal) {
@@ -149,66 +153,96 @@ export const BlockingModal = () => {
           overlayClassName="backdrop-blur"
           onContextMenu={(e) => e.preventDefault()}
         >
-          <AlertDialogHeader className="flex flex-col items-center text-center">
-            <div className="mb-4 rounded-full bg-red-100/80 p-4 dark:bg-red-900/30">
-              <ShieldAlertIcon className="h-10 w-10 text-red-500 dark:text-red-400" />
-            </div>
-            <AlertDialogTitle className="text-2xl font-semibold">
-              Account Access Limited
-            </AlertDialogTitle>
-            <AlertDialogDescription className="mt-2 space-y-2 text-muted-foreground">
-              <div>
-                Your team is now on a free solo plan. Your access to this team
-                has been limited.
-              </div>
-              <div>
-                Contact your team owner, upgrade the team or{" "}
-                {userTeam ? (
-                  <span>
-                    switch to another team to continue using the platform.
-                  </span>
-                ) : (
-                  <span>create a new team to continue using the platform.</span>
-                )}
-              </div>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <Button
-              variant="link"
-              className="w-full sm:w-auto"
-              onClick={() => signOut()}
-            >
-              Log out
-            </Button>
-            <UpgradePlanModal
-              clickedPlan={PlanEnum.Business}
-              trigger="trial_end_blocking_modal_for_team_member"
-            >
-              <Button className="w-full sm:w-auto" type="button">
-                Upgrade
-              </Button>
-            </UpgradePlanModal>
-            {userTeam ? (
-              <Button
-                variant="outline"
-                className="w-full gap-0 sm:w-auto"
-                onClick={handleSwitchTeam}
-              >
-                Switch to &quot;
-                <span className="w-[15ch] max-w-fit truncate">
-                  {userTeam.name}
-                </span>
-                &quot;
-              </Button>
-            ) : (
-              <AddTeamModal setCurrentTeam={setCurrentTeam}>
-                <Button variant="outline" className="w-full sm:w-auto">
-                  Create New Team
+          {isPendingApproval ? (
+            <>
+              <AlertDialogHeader className="flex flex-col items-center text-center">
+                <div className="mb-4 rounded-full bg-yellow-100/80 p-4 dark:bg-yellow-900/30">
+                  <ClockIcon className="h-10 w-10 text-yellow-500 dark:text-yellow-400" />
+                </div>
+                <AlertDialogTitle className="text-2xl font-semibold">
+                  Awaiting approval
+                </AlertDialogTitle>
+                <AlertDialogDescription className="mt-2 text-muted-foreground">
+                  Your account is pending approval by a team admin. You&apos;ll
+                  receive an email once you&apos;ve been granted access.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto"
+                  onClick={() => signOut({ callbackUrl: "/login" })}
+                >
+                  Sign out
                 </Button>
-              </AddTeamModal>
-            )}
-          </AlertDialogFooter>
+              </AlertDialogFooter>
+            </>
+          ) : (
+            <>
+              <AlertDialogHeader className="flex flex-col items-center text-center">
+                <div className="mb-4 rounded-full bg-red-100/80 p-4 dark:bg-red-900/30">
+                  <ShieldAlertIcon className="h-10 w-10 text-red-500 dark:text-red-400" />
+                </div>
+                <AlertDialogTitle className="text-2xl font-semibold">
+                  Account Access Limited
+                </AlertDialogTitle>
+                <AlertDialogDescription className="mt-2 space-y-2 text-muted-foreground">
+                  <div>
+                    Your team is now on a free solo plan. Your access to this
+                    team has been limited.
+                  </div>
+                  <div>
+                    Contact your team owner, upgrade the team or{" "}
+                    {userTeam ? (
+                      <span>
+                        switch to another team to continue using the platform.
+                      </span>
+                    ) : (
+                      <span>
+                        create a new team to continue using the platform.
+                      </span>
+                    )}
+                  </div>
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <Button
+                  variant="link"
+                  className="w-full sm:w-auto"
+                  onClick={() => signOut()}
+                >
+                  Log out
+                </Button>
+                <UpgradePlanModal
+                  clickedPlan={PlanEnum.Business}
+                  trigger="trial_end_blocking_modal_for_team_member"
+                >
+                  <Button className="w-full sm:w-auto" type="button">
+                    Upgrade
+                  </Button>
+                </UpgradePlanModal>
+                {userTeam ? (
+                  <Button
+                    variant="outline"
+                    className="w-full gap-0 sm:w-auto"
+                    onClick={handleSwitchTeam}
+                  >
+                    Switch to &quot;
+                    <span className="w-[15ch] max-w-fit truncate">
+                      {userTeam.name}
+                    </span>
+                    &quot;
+                  </Button>
+                ) : (
+                  <AddTeamModal setCurrentTeam={setCurrentTeam}>
+                    <Button variant="outline" className="w-full sm:w-auto">
+                      Create New Team
+                    </Button>
+                  </AddTeamModal>
+                )}
+              </AlertDialogFooter>
+            </>
+          )}
         </AlertDialogContent>
       </AlertDialog>
     </>

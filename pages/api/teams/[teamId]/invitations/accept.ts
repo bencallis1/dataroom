@@ -4,6 +4,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 
 import { identifyUser, trackAnalytics } from "@/lib/analytics";
+import { sendMemberPendingApprovalEmail } from "@/lib/emails/send-member-pending-approval";
 import { errorhandler } from "@/lib/errorHandler";
 import prisma from "@/lib/prisma";
 import { CustomUser } from "@/lib/types";
@@ -111,6 +112,7 @@ export default async function handle(
           users: {
             create: {
               userId,
+              status: "PENDING",
             },
           },
         },
@@ -129,7 +131,39 @@ export default async function handle(
         },
       });
 
-      return res.redirect(`/documents?invitation=accepted`);
+      // Notify all team admins that a new member is awaiting approval
+      const team = await prisma.team.findUnique({
+        where: { id: teamId },
+        select: {
+          name: true,
+          users: {
+            where: { role: "ADMIN", status: "ACTIVE" },
+            select: { user: { select: { email: true, name: true } } },
+          },
+        },
+      });
+
+      if (team) {
+        const approvalUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/settings/people`;
+        const memberUser = await prisma.user.findUnique({
+          where: { id: userId },
+          select: { name: true, email: true },
+        });
+
+        for (const admin of team.users) {
+          if (admin.user.email) {
+            sendMemberPendingApprovalEmail({
+              adminEmail: admin.user.email,
+              memberName: memberUser?.name ?? "",
+              memberEmail: memberUser?.email ?? invitation.email,
+              teamName: team.name,
+              approvalUrl,
+            });
+          }
+        }
+      }
+
+      return res.redirect(`/pending-approval`);
     } catch (error) {
       errorhandler(error, res);
     }

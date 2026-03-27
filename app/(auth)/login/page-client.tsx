@@ -257,62 +257,7 @@ export default function Login() {
           </p>
         </div>
       </div>
-      <div className="relative hidden w-full justify-center overflow-hidden bg-black md:flex md:w-1/2 lg:w-1/2">
-        <div className="relative m-0 flex h-full min-h-[700px] w-full p-0">
-          <div
-            className="relative flex h-full w-full flex-col justify-between"
-            id="features"
-          >
-            {/* Testimonial top 2/3 */}
-            <div
-              className="flex w-full flex-col items-center justify-center"
-              style={{ height: "66.6666%" }}
-            >
-              {/* Image container */}
-              <div className="mb-4 h-64 w-80">
-                <img
-                  className="h-full w-full rounded-2xl object-cover shadow-2xl"
-                  src="/_static/testimonials/backtrace.jpeg"
-                  alt="Backtrace Capital"
-                />
-              </div>
-              {/* Text content */}
-              <div className="max-w-xl text-center">
-                <blockquote className="text-balance font-normal leading-8 text-white sm:text-xl sm:leading-9">
-                  <p>
-                    &quot;We raised our €30M Fund with Papermark Data Rooms.
-                    Love the customization, security and ease of use.&quot;
-                  </p>
-                </blockquote>
-                <figcaption className="mt-4">
-                  <div className="text-balance font-normal text-white">
-                    Michael Münnix
-                  </div>
-                  <div className="text-balance font-light text-gray-400">
-                    Partner, Backtrace Capital
-                  </div>
-                </figcaption>
-              </div>
-            </div>
-            {/* White block with logos bottom 1/3, full width/height */}
-            <div
-              className="absolute bottom-0 left-0 flex w-full flex-col items-center justify-center bg-white"
-              style={{ height: "33.3333%" }}
-            >
-              <div className="mb-4 max-w-xl text-balance text-center font-semibold text-gray-900">
-                Trusted by teams at
-              </div>
-              <LogoCloud />
-              {/* <img
-                src="https://assets.papermark.io/upload/file_7JEGY7zM9ZTfmxu8pe7vWj-Screenshot-2025-05-09-at-18.09.13.png"
-                alt="Trusted teams illustration"
-                className="mt-4 max-w-full h-auto object-contain"
-                style={{maxHeight: '120px'}}
-              /> */}
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </div>
   );
 }

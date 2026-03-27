@@ -317,7 +317,7 @@ export interface TeamDetail {
   name: string;
   users: {
     role: "ADMIN" | "MANAGER" | "MEMBER";
-    status: "ACTIVE" | "BLOCKED_TRIAL_EXPIRED";
+    status: "ACTIVE" | "PENDING" | "BLOCKED_TRIAL_EXPIRED";
     teamId: string;
     userId: string;
     user: {
