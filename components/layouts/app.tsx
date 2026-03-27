@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import Cookies from "js-cookie";
 
@@ -22,71 +22,49 @@ import { BlockingModal } from "./blocking-modal";
 
 const DATAROOM_SIDEBAR_COOKIE_NAME = "sidebar:dataroom-state";
 
-// Helper to get initial sidebar state synchronously (avoids flash)
-function getInitialSidebarState(isDataroom: boolean): boolean {
-  if (typeof window === "undefined") return false; // SSR: default closed to avoid flash
+/** Route-only default: must match on server and client first paint (no cookies) to avoid hydration mismatch. */
+function getDefaultSidebarOpen(isDataroom: boolean): boolean {
+  return isDataroom ? false : true;
+}
 
-  // For dataroom pages, check dataroom-specific cookie first
+function readSidebarOpenFromCookies(isDataroom: boolean): boolean {
   if (isDataroom) {
     const dataroomCookie = Cookies.get(DATAROOM_SIDEBAR_COOKIE_NAME);
     if (dataroomCookie !== undefined) {
       return dataroomCookie === "true";
     }
-    // No dataroom preference set yet - default to closed for datarooms
     return false;
   }
-
-  // For non-dataroom pages, use main cookie
   const mainCookie = Cookies.get(SIDEBAR_COOKIE_NAME);
   if (mainCookie !== undefined) {
     return mainCookie === "true";
   }
-
-  return true; // Default open for non-dataroom pages
+  return true;
 }
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const isDataroom = router.pathname.startsWith("/datarooms/[id]");
 
-  // Use lazy initializer to compute initial state synchronously (avoids flash)
   const [sidebarOpen, setSidebarOpen] = useState(() =>
-    getInitialSidebarState(isDataroom),
+    getDefaultSidebarOpen(isDataroom),
   );
 
-  // Track previous dataroom state for transitions
-  const prevIsDataroomRef = useRef<boolean>(isDataroom);
-  const isFirstRenderRef = useRef(true);
+  const prevIsDataroomRef = useRef(isDataroom);
 
-  // Handle initial mount and transitions between dataroom/non-dataroom
+  // Apply persisted state after mount / route change; cookies are unavailable during SSR.
+  useLayoutEffect(() => {
+    setSidebarOpen(readSidebarOpenFromCookies(isDataroom));
+  }, [isDataroom]);
+
   useEffect(() => {
-    if (isFirstRenderRef.current) {
-      isFirstRenderRef.current = false;
-      // Set cookie on initial mount if in dataroom and no preference exists
-      if (
-        isDataroom &&
-        Cookies.get(DATAROOM_SIDEBAR_COOKIE_NAME) === undefined
-      ) {
-        Cookies.set(DATAROOM_SIDEBAR_COOKIE_NAME, "false", { expires: 7 });
-      }
-      return;
+    const prev = prevIsDataroomRef.current;
+    if (prev && !isDataroom) {
+      Cookies.remove(DATAROOM_SIDEBAR_COOKIE_NAME);
     }
-
-    // Transitioning from non-dataroom to dataroom
-    if (!prevIsDataroomRef.current && isDataroom) {
-      setSidebarOpen(false);
+    if (isDataroom && Cookies.get(DATAROOM_SIDEBAR_COOKIE_NAME) === undefined) {
       Cookies.set(DATAROOM_SIDEBAR_COOKIE_NAME, "false", { expires: 7 });
     }
-
-    // Transitioning from dataroom to non-dataroom
-    if (prevIsDataroomRef.current && !isDataroom) {
-      Cookies.remove(DATAROOM_SIDEBAR_COOKIE_NAME);
-      // Restore main sidebar state
-      const mainCookie = Cookies.get(SIDEBAR_COOKIE_NAME);
-      // setSidebarOpen(mainCookie === "true");
-      setSidebarOpen(mainCookie !== undefined ? mainCookie === "true" : true);
-    }
-
     prevIsDataroomRef.current = isDataroom;
   }, [isDataroom]);
 
