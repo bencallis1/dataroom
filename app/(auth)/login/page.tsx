@@ -5,20 +5,20 @@ import { GTMComponent } from "@/components/gtm-component";
 import LoginClient from "./page-client";
 
 const data = {
-  description: "Login to Papermark",
-  title: "Login | Papermark",
+  description: "Login to Kensho Datarooms",
+  title: "Login | Kensho Datarooms",
   url: "/login",
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.papermark.com"),
+  metadataBase: new URL("https://www.portal.kenshocollective.com"),
   title: data.title,
   description: data.description,
   openGraph: {
     title: data.title,
     description: data.description,
     url: data.url,
-    siteName: "Papermark",
+    siteName: "Kensho Datarooms",
     images: [
       {
         url: "/_static/meta-image.png",

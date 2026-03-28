@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { useTeam } from "@/context/team-context";
 import { PlanEnum } from "@/ee/stripe/constants";
@@ -28,7 +28,7 @@ import { Separator } from "@/components/ui/separator";
 export default function DataroomsPage() {
   const teamInfo = useTeam();
   const { datarooms, totalCount } = useDatarooms();
-  const { isFree, isPro, isBusiness, isDatarooms, isDataroomsPlus, isTrial } =
+  const { isBusiness, isDatarooms, isDataroomsPlus, isTrial } =
     usePlan();
   const { limits } = useLimits();
   const router = useRouter();
@@ -83,9 +83,6 @@ export default function DataroomsPage() {
 
   const hasActiveFilters = searchQuery || tagsFilter?.length;
 
-  useEffect(() => {
-    if (!isTrial && (isFree || isPro)) router.push("/documents");
-  }, [isTrial, isFree, isPro]);
 
   return (
     <AppLayout>
