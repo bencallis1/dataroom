@@ -67,6 +67,14 @@ const nextConfig = {
               endpoints: [{ url: "/api/csp-report" }],
             }),
           },
+          ...(isDev
+            ? []
+            : [
+                {
+                  key: "Content-Security-Policy",
+                  value: "upgrade-insecure-requests",
+                },
+              ]),
           {
             key: "Content-Security-Policy-Report-Only",
             value:
@@ -76,8 +84,7 @@ const nextConfig = {
               `img-src 'self' data: blob: https: ${isDev ? "http:" : ""}; ` +
               `font-src 'self' data: https: ${isDev ? "http:" : ""}; ` +
               `frame-ancestors 'none'; ` +
-              `connect-src 'self' https: ${isDev ? "http: ws: wss:" : ""}; ` + // Add WebSocket for hot reload
-              `${isDev ? "" : "upgrade-insecure-requests;"} ` +
+              `connect-src 'self' https: ${isDev ? "http: ws: wss:" : ""}; ` +
               "report-to csp-endpoint;",
           },
         ],
