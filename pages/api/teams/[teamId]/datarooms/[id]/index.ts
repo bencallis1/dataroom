@@ -35,9 +35,20 @@ export default async function handle(
             teamId: teamId,
           },
         },
+        select: { role: true },
       });
-      if (!teamAccess) {  
+      if (!teamAccess) {
         return res.status(401).end("Unauthorized");
+      }
+
+      // MEMBER role: check explicit dataroom access grant
+      if (teamAccess.role === "MEMBER") {
+        const access = await prisma.dataroomUserAccess.findUnique({
+          where: { dataroomId_userId: { dataroomId, userId } },
+        });
+        if (!access) {
+          return res.status(404).end("Not Found");
+        }
       }
 
       const dataroom = await prisma.dataroom.findUnique({

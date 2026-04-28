@@ -26,7 +26,7 @@ export default function App({
   return (
     <>
       <Head>
-        <title>Papermark | The Open Source DocSend Alternative</title>
+        <title>Document Locker</title>
         <meta name="theme-color" content="#000000" />
         <meta
           name="description"

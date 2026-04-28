@@ -47,6 +47,7 @@ export default async function handle(
         },
         select: {
           teamId: true,
+          role: true,
         },
       });
 
@@ -54,11 +55,16 @@ export default async function handle(
         return res.status(401).end("Unauthorized");
       }
 
+      const isMember = teamAccess.role === "MEMBER";
+
       // Simple mode: return minimal data without filters, tags, or aggregations
       if (isSimpleMode) {
         const datarooms = await prisma.dataroom.findMany({
           where: {
             teamId: teamId,
+            ...(isMember && {
+              userAccess: { some: { userId } },
+            }),
           },
           select: {
             id: true,
@@ -85,6 +91,9 @@ export default async function handle(
       // Build where clause based on filters
       const whereClause: Prisma.DataroomWhereInput = {
         teamId: teamId,
+        ...(isMember && {
+          userAccess: { some: { userId } },
+        }),
       };
 
       // Search filter - search both name and internalName
@@ -131,6 +140,9 @@ export default async function handle(
         prisma.dataroom.count({
           where: {
             teamId: teamId,
+            ...(isMember && {
+              userAccess: { some: { userId } },
+            }),
           },
         }),
         prisma.dataroom.findMany({

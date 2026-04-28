@@ -53,7 +53,23 @@ model Dataroom {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  userAccess DataroomUserAccess[]
+
   @@index([teamId])
+}
+
+model DataroomUserAccess {
+  id         String   @id @default(cuid())
+  dataroomId String
+  userId     String
+  dataroom   Dataroom @relation(fields: [dataroomId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([dataroomId, userId])
+  @@index([userId])
+  @@index([dataroomId])
 }
 
 model DataroomDocument {
