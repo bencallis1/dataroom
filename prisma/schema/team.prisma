@@ -1,16 +1,16 @@
 model Team {
-  id           String        @id @default(cuid())
-  name         String
-  slug         String?       @unique // Optional human-readable identifier (e.g. "acme"), used for SSO login
-  users        UserTeam[]
-  documents    Document[]
-  folders      Folder[]
-  domains      Domain[]
-  invitations  Invitation[]
-  sentEmails   SentEmail[]
-  brand        Brand?
-  datarooms    Dataroom[]
-  agreements   Agreement[]
+  id            String         @id @default(cuid())
+  name          String
+  slug          String?        @unique // Optional human-readable identifier (e.g. "acme"), used for SSO login
+  users         UserTeam[]
+  documents     Document[]
+  folders       Folder[]
+  domains       Domain[]
+  invitations   Invitation[]
+  sentEmails    SentEmail[]
+  brand         Brand?
+  datarooms     Dataroom[]
+  agreements    Agreement[]
   viewerGroups  ViewerGroup[]
   visitorGroups VisitorGroup[]
   viewers       Viewer[]
@@ -61,6 +61,14 @@ model Team {
   agentsEnabled Boolean @default(false) // Enable AI agents for the team
   vectorStoreId String? // OpenAI vector store ID for team-level document search
   chats         Chat[]
+
+  // Private AI knowledge base (see prisma/schema/kb.prisma)
+  documentChunks      DocumentChunk[]
+  kbEntities          KbEntity[]
+  entityRelationships EntityRelationship[]
+  documentClaims      DocumentClaim[]
+  analysisRuns        AnalysisRun[]
+  kbIndexStates       KbIndexState[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
