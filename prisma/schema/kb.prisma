@@ -1,0 +1,222 @@
+// Private AI knowledge base schema.
+//
+// Note on Document / DocumentVersion linkage: Document and DocumentVersion are
+// intentionally NOT modified here — their definitions in document.prisma stay
+// untouched. We therefore reference them by id only (no Prisma `@relation`),
+// and the migration adds raw SQL foreign keys with ON DELETE CASCADE so the
+// database still enforces referential integrity. Team is multi-tenant and is
+// linked through standard Prisma relations on both sides.
+
+enum KbEntityType {
+  PERSON
+  ORGANIZATION
+  PRODUCT
+  LOCATION
+  EVENT
+  CONCEPT
+  METRIC
+  DATE
+  OTHER
+}
+
+enum AnalysisRunStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum KbIndexStatus {
+  PENDING
+  INDEXING
+  READY
+  STALE
+  FAILED
+}
+
+model DocumentChunk {
+  id String @id @default(cuid())
+
+  // Foreign keys to Document / DocumentVersion stored as plain ids.
+  // The SQL migration creates ON DELETE CASCADE foreign-key constraints so
+  // chunks are removed when their parent document/version is deleted.
+  documentId        String
+  documentVersionId String
+
+  chunkIndex Int // 0-based ordering within the document version
+  pageNumber Int? // optional page locator for PDFs
+
+  content    String @db.Text
+  tokenCount Int?
+
+  // pgvector embedding column. Mapped via Unsupported until prisma-client-js
+  // gains first-class vector support; the migration installs the extension
+  // and creates an ivfflat index on this column.
+  embedding Unsupported("vector(1536)")?
+
+  metadata Json? // freeform: section heading, bbox, source span, etc.
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  claims DocumentClaim[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([documentVersionId, chunkIndex])
+  @@index([teamId])
+  @@index([documentId])
+  @@index([documentVersionId])
+  @@index([teamId, documentId])
+  @@index([documentVersionId, chunkIndex])
+}
+
+model KbEntity {
+  id String @id @default(cuid())
+
+  type          KbEntityType
+  name          String
+  canonicalName String? // normalized for dedupe / lookup
+  description   String?      @db.Text
+  aliases       String[] // alternate spellings / acronyms
+  attributes    Json? // flexible bag of structured properties
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  outgoingRelationships EntityRelationship[] @relation("EntityRelationshipFrom")
+  incomingRelationships EntityRelationship[] @relation("EntityRelationshipTo")
+  claims                DocumentClaim[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([teamId, type, canonicalName])
+  @@index([teamId])
+  @@index([teamId, type])
+  @@index([teamId, name])
+  @@index([type])
+}
+
+model EntityRelationship {
+  id String @id @default(cuid())
+
+  fromEntityId String
+  fromEntity   KbEntity @relation("EntityRelationshipFrom", fields: [fromEntityId], references: [id], onDelete: Cascade)
+
+  toEntityId String
+  toEntity   KbEntity @relation("EntityRelationshipTo", fields: [toEntityId], references: [id], onDelete: Cascade)
+
+  relationType String // e.g. "founded", "owns", "reports_to", "located_in"
+  description  String? @db.Text
+  confidence   Float? // [0,1] — how confident the extractor is
+  attributes   Json?
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([teamId, fromEntityId, toEntityId, relationType])
+  @@index([teamId])
+  @@index([fromEntityId])
+  @@index([toEntityId])
+  @@index([relationType])
+  @@index([teamId, relationType])
+}
+
+model DocumentClaim {
+  id String @id @default(cuid())
+
+  // References to Document / DocumentVersion / Chunk. Document and
+  // DocumentVersion are linked by id only (see note at top of file).
+  documentId        String
+  documentVersionId String?
+
+  chunkId String?
+  chunk   DocumentChunk? @relation(fields: [chunkId], references: [id], onDelete: SetNull)
+
+  // Optional anchor entity that this claim is "about".
+  entityId String?
+  entity   KbEntity? @relation(fields: [entityId], references: [id], onDelete: SetNull)
+
+  statement  String  @db.Text // natural-language claim
+  claimType  String? // e.g. "fact", "metric", "risk", "commitment"
+  pageNumber Int?
+  confidence Float? // [0,1]
+  evidence   Json? // spans, bboxes, source quotes, etc.
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([teamId])
+  @@index([documentId])
+  @@index([documentVersionId])
+  @@index([chunkId])
+  @@index([entityId])
+  @@index([teamId, documentId])
+  @@index([teamId, claimType])
+}
+
+model AnalysisRun {
+  id String @id @default(cuid())
+
+  // Optional scoping. AnalysisRun may target a single document version, a
+  // whole document, or be a team-wide pass — hence all are nullable.
+  documentId        String?
+  documentVersionId String?
+
+  runType    String // e.g. "chunk", "embed", "extract_entities", "extract_claims", "full"
+  status     AnalysisRunStatus @default(PENDING)
+  startedAt  DateTime?
+  finishedAt DateTime?
+  error      String?           @db.Text
+  stats      Json? // counts, durations, model versions, etc.
+  config     Json? // input parameters for reproducibility
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([teamId])
+  @@index([teamId, status])
+  @@index([documentId])
+  @@index([documentVersionId])
+  @@index([status, createdAt(sort: Desc)])
+}
+
+model KbIndexState {
+  id String @id @default(cuid())
+
+  // One state row per document version per team. documentVersionId is the
+  // natural key; teamId is duplicated for tenant isolation queries.
+  documentId        String
+  documentVersionId String @unique
+
+  status         KbIndexStatus @default(PENDING)
+  chunkCount     Int           @default(0)
+  entityCount    Int           @default(0)
+  claimCount     Int           @default(0)
+  embeddingModel String?
+  lastIndexedAt  DateTime?
+  lastError      String?       @db.Text
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([teamId])
+  @@index([teamId, status])
+  @@index([documentId])
+  @@index([status])
+}
