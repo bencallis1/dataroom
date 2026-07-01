@@ -126,21 +126,18 @@ const putFileSingle = async ({
   teamId: string;
   docId: string;
 }) => {
-  const presignedResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/file/s3/get-presigned-post-url`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fileName: file.name,
-        contentType: file.type,
-        teamId: teamId,
-        docId: docId,
-      }),
+  const presignedResponse = await fetch("/api/file/s3/get-presigned-post-url", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+    body: JSON.stringify({
+      fileName: file.name,
+      contentType: file.type,
+      teamId: teamId,
+      docId: docId,
+    }),
+  });
 
   if (!presignedResponse.ok) {
     throw new Error(
@@ -199,7 +196,7 @@ const putFileMultipart = async ({
   try {
     // Step 1: Initiate multipart upload
     const initiateResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/file/s3/multipart`,
+      "/api/file/s3/multipart",
       {
         method: "POST",
         headers: {
@@ -225,7 +222,7 @@ const putFileMultipart = async ({
 
     // Step 2: Get pre-signed URLs for parts
     const partUrlsResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/file/s3/multipart`,
+      "/api/file/s3/multipart",
       {
         method: "POST",
         headers: {
@@ -295,7 +292,7 @@ const putFileMultipart = async ({
 
     // Step 4: Complete multipart upload
     const completeResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/file/s3/multipart`,
+      "/api/file/s3/multipart",
       {
         method: "POST",
         headers: {
