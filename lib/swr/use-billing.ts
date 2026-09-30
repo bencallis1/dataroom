@@ -133,7 +133,7 @@ export function usePlan({
     discount: plan?.discount || null,
     isFree: false,
     isStarter: false,
-    isPro: true,
+    isPro: false,
     isBusiness: true,
     isDatarooms: true,
     isDataroomsPlus: true,
