@@ -14,6 +14,8 @@ import {
   Text,
 } from "@react-email/components";
 
+import { BRAND_NAME, BRAND_URL } from "@/lib/branding";
+
 import { Footer } from "./shared/footer";
 
 interface DataroomTrialEnd {
@@ -29,7 +31,7 @@ const DataroomTrialEnd = ({ name }: DataroomTrialEnd) => {
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 w-[465px] p-5">
             <Text className="mb-8 mt-4 text-center text-2xl font-normal">
-              <span className="font-bold tracking-tighter">Papermark</span>
+              <span className="font-bold tracking-tighter">{BRAND_NAME}</span>
             </Text>
             <Text className="font-seminbold mb-8 mt-4 text-center text-xl">
               Your Data Room plan trial has expired
@@ -38,10 +40,10 @@ const DataroomTrialEnd = ({ name }: DataroomTrialEnd) => {
               Hey{name && ` ${name}`}!
             </Text>
             <Text className="text-sm leading-6 text-black">
-              Your Papermark Data Room trial has expired.
+              Your {BRAND_NAME} Data Room trial has expired.
               <br />
               <Link
-                href={`https://app.papermark.com/settings/billing`}
+                href={`${BRAND_URL}/settings/billing`}
                 className="underline"
               >
                 Upgrade now
@@ -68,7 +70,7 @@ const DataroomTrialEnd = ({ name }: DataroomTrialEnd) => {
             <Section className="my-8 text-center">
               <Button
                 className="rounded bg-black text-center text-xs font-semibold text-white no-underline"
-                href={`https://app.papermark.com/settings/billing`}
+                href={`${BRAND_URL}/settings/billing`}
                 style={{ padding: "12px 20px" }}
               >
                 Upgrade now

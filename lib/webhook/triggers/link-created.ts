@@ -3,6 +3,7 @@ import { isTeamPausedById } from "@/ee/features/billing/cancellation/lib/is-team
 import prisma from "@/lib/prisma";
 import { log } from "@/lib/utils";
 import { sendWebhooks } from "@/lib/webhook/send-webhooks";
+import { BRAND_HOST, BRAND_URL } from "@/lib/branding";
 
 export async function sendLinkCreatedWebhook({
   teamId,
@@ -78,9 +79,9 @@ export async function sendLinkCreatedWebhook({
       id: link.id,
       url: link.domainId
         ? `https://${link.domainSlug}/${link.slug}`
-        : `https://www.papermark.com/view/${link.id}`,
+        : `${BRAND_URL}/view/${link.id}`,
       domain:
-        link.domainId && link.domainSlug ? link.domainSlug : "papermark.com",
+        link.domainId && link.domainSlug ? link.domainSlug : BRAND_HOST,
       key: link.domainId && link.slug ? link.slug : `view/${link.id}`,
       name: link.name,
       expiresAt: link.expiresAt?.toISOString() || null,

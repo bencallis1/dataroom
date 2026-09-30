@@ -17,7 +17,6 @@ export const sendDataroomTrialEndEmail = async (params: {
   try {
     await sendEmail({
       to: email as string,
-      from: "Marc Seitz <marc@papermark.com>",
       subject,
       react: emailTemplate,
       test: process.env.NODE_ENV === "development",

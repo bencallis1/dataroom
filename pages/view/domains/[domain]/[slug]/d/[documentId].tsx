@@ -12,6 +12,7 @@ import { parsePageId } from "notion-utils";
 import z from "zod";
 
 import { fetchLinkDataByDomainSlug } from "@/lib/api/links/link-data";
+import { BRAND_NAME } from "@/lib/branding";
 import { getFeatureFlags } from "@/lib/featureFlags";
 import notion from "@/lib/notion";
 import {
@@ -121,7 +122,7 @@ export default function DataroomDocumentViewPage({
           enableBranding={meta.enableCustomMetatag ?? false}
           title={
             meta.metaTitle ??
-            `${link?.dataroomDocument?.document?.name} | Powered by Papermark`
+            `${link?.dataroomDocument?.document?.name} | Powered by ${BRAND_NAME}`
           }
           description={meta.metaDescription ?? null}
           imageUrl={meta.metaImage ?? null}
@@ -166,7 +167,7 @@ export default function DataroomDocumentViewPage({
         enableBranding={meta.enableCustomMetatag ?? false}
         title={
           meta.metaTitle ??
-          `${link?.dataroomDocument?.document?.name} | Powered by Papermark`
+          `${link?.dataroomDocument?.document?.name} | Powered by ${BRAND_NAME}`
         }
         description={meta.metaDescription ?? null}
         imageUrl={meta.metaImage ?? null}

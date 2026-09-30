@@ -6,6 +6,7 @@ import { ExternalLink } from "lucide-react";
 
 import { useSafePageViewTracker } from "@/lib/tracking/safe-page-view-tracker";
 import { getTrackingOptions } from "@/lib/tracking/tracking-config";
+import { BRAND_NAME } from "@/lib/branding";
 
 import { Button } from "@/components/ui/button";
 
@@ -245,7 +246,7 @@ export default function LinkPreview({
             {domain || linkName || "External Link"}
           </h2>
           <p className="max-w-md text-sm text-gray-500 dark:text-gray-400">
-            You&apos;re leaving Papermark. If you trust this link, click to
+            You&apos;re leaving {BRAND_NAME}. If you trust this link, click to
             continue.
           </p>
           {linkUrl ? (

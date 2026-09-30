@@ -30,8 +30,8 @@ import useSWRImmutable from "swr/immutable";
 
 import { useAnalytics } from "@/lib/analytics";
 import { cn, fetcher } from "@/lib/utils";
+import { BRAND_HOST, BRAND_NAME } from "@/lib/branding";
 
-import LinkedInIcon from "@/components/shared/icons/linkedin";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
@@ -189,7 +189,6 @@ const slides = [
   { id: "viewsStats", gradient: RECAP_GRADIENT },
   { id: "mostActive", gradient: RECAP_GRADIENT },
   { id: "summary", gradient: RECAP_GRADIENT },
-  { id: "shareOffer", gradient: RECAP_GRADIENT },
 ];
 
 export function YearlyRecapModal({
@@ -314,7 +313,7 @@ export function YearlyRecapModal({
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `papermark-wrapped-${stats?.year || 2025}.png`;
+        a.download = `wrapped-${stats?.year || 2025}.png`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -326,46 +325,6 @@ export function YearlyRecapModal({
     } finally {
       setIsCapturing(false);
     }
-  };
-
-  const getShareText = () => {
-    const totalMinutes = Math.floor((stats?.totalDuration || 0) / 60_000); // from milliseconds to minutes
-    const countriesCount = stats?.uniqueCountries?.length || 0;
-    const distanceTraveled = stats?.distanceTraveled || 0;
-
-    return `· ${totalMinutes.toLocaleString()} min my docs were viewed
-· ${distanceTraveled.toLocaleString()} km travelled my documents
-· ${stats?.totalDocuments} documents
-· ${stats?.totalViews?.toLocaleString()} views
-· ${countriesCount} countries
-
-My Papermark Wrapped ${stats?.year}!
-
-#PapermarkWrapped https://www.papermark.com/`;
-  };
-
-  const handleShareLinkedIn = async () => {
-    analytics.capture("YIR: Share Platform Clicked", {
-      teamId,
-      platform: "linkedin",
-    });
-    const text = getShareText();
-    window.open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://www.papermark.com/")}&summary=${encodeURIComponent(text)}`,
-      "_blank",
-    );
-  };
-
-  const handleShareTwitter = async () => {
-    analytics.capture("YIR: Share Platform Clicked", {
-      teamId,
-      platform: "twitter",
-    });
-    const text = getShareText();
-    window.open(
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
-      "_blank",
-    );
   };
 
   if (isLoading || !stats) {
@@ -458,54 +417,22 @@ My Papermark Wrapped ${stats?.year}!
                   <div className="mt-4 text-center sm:mt-6">
                     <div className="inline-flex items-center gap-2">
                       <span className="text-base font-bold text-gray-900 sm:text-lg">
-                        Papermark
+                        {BRAND_NAME}
                       </span>
                       <span className="text-base font-black text-gray-900 sm:text-lg">
                         WRAPPED
                       </span>
                     </div>
-                    <p className="mt-1 text-xs text-gray-500">papermark.com</p>
+                    <p className="mt-1 text-xs text-gray-500">{BRAND_HOST}</p>
                   </div>
                 </div>
               );
             })()}
           </div>
 
-          {/* $50 grant text */}
-          <p className="mb-4 px-4 text-center text-xs text-muted-foreground sm:px-6 sm:text-sm">
-            Share your stats and receive{" "}
-            <span className="font-semibold text-orange-600">$50</span> in
-            credits on your papermark account, please send confirmation to{" "}
-            <span className="font-medium">support@papermark.com</span> and
-            include screenshot or link to your post.
-          </p>
-
           {/* Share buttons */}
           <div className="flex flex-col-reverse items-center gap-3 px-4 pb-4 sm:flex-row sm:justify-between sm:px-6 sm:pb-6">
             <div className="flex items-center justify-center gap-2">
-              <Button
-                onClick={handleShareLinkedIn}
-                variant="secondary"
-                size="icon"
-                className="rounded-full"
-              >
-                <LinkedInIcon className="h-4 w-4" color={false} />
-              </Button>
-              <Button
-                onClick={handleShareTwitter}
-                variant="secondary"
-                size="icon"
-                className="rounded-full"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 1200 1227"
-                  className="h-4 w-4"
-                  fill="currentColor"
-                >
-                  <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" />
-                </svg>
-              </Button>
               <Button
                 onClick={handleDownload}
                 disabled={isCapturing}
@@ -578,7 +505,6 @@ My Papermark Wrapped ${stats?.year}!
             {currentSlide === 3 && <ViewsStatsSlide stats={stats} />}
             {currentSlide === 4 && <MostActiveSlide stats={stats} />}
             {currentSlide === 5 && <SummarySlide stats={stats} />}
-            {currentSlide === 6 && <ShareOfferSlide stats={stats} />}
           </div>
 
           {/* Navigation - hidden on first slide */}
@@ -628,7 +554,7 @@ function IntroSlide({
     <div className="relative flex min-h-[350px] flex-col items-center justify-center text-center sm:min-h-[520px]">
       <h1 className="relative z-10 mb-4 text-balance text-3xl font-semibold text-foreground sm:text-6xl">
         Your {stats.year} with{" "}
-        <span className="text-orange-500">Papermark</span>
+        <span className="text-orange-500">{BRAND_NAME}</span>
       </h1>
       <p className="relative z-10 mb-10 max-w-xl px-2 text-xs text-gray-500 sm:mb-14 sm:px-0 sm:text-sm">
         This review is personalised to your platform usage and contains your
@@ -736,7 +662,7 @@ function ViewsStatsSlide({ stats }: { stats: YearlyRecapStats }) {
     <div className="flex min-h-[350px] flex-col items-center justify-center sm:min-h-[520px]">
       {/* Header from left */}
       <h2 className="mb-6 text-balance text-center text-xl font-bold text-foreground duration-700 animate-in slide-in-from-left-8 sm:mb-8 sm:text-3xl">
-        Your {stats.year} activity on Papermark
+        Your {stats.year} activity on {BRAND_NAME}
       </h2>
 
       {/* Cards from right */}
@@ -846,29 +772,6 @@ function SummarySlide({ stats }: { stats: YearlyRecapStats }) {
           {stats.totalDatarooms.toLocaleString()}
         </span>
       </div> */}
-    </div>
-  );
-}
-
-function ShareOfferSlide({ stats }: { stats: YearlyRecapStats }) {
-  return (
-    <div className="flex min-h-[350px] flex-col items-center justify-center text-center sm:min-h-[520px]">
-      <h2 className="mb-4 text-balance text-xl font-bold text-foreground sm:mb-6 sm:text-3xl">
-        Share your stats or experience with Papermark
-      </h2>
-
-      <div className="duration-1000 animate-in zoom-in-50">
-        <span className="mb-2 block text-6xl font-bold text-orange-500 sm:text-8xl">
-          $50
-        </span>
-      </div>
-
-      <p className="mt-6 max-w-sm text-balance px-2 text-xs text-muted-foreground sm:mt-8 sm:max-w-none sm:px-0 sm:text-sm">
-        You will receive $50 in credits on your papermark account, please send
-        confirmation to{" "}
-        <span className="font-medium">support@papermark.com</span> and include
-        screenshot or link to your post.
-      </p>
     </div>
   );
 }

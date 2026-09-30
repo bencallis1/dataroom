@@ -1,6 +1,7 @@
 import { render } from "@react-email/components";
 import { nanoid } from "nanoid";
 
+import { BRAND_NAME, EMAIL_FROM } from "@/lib/branding";
 import prisma from "@/lib/prisma";
 import { resend } from "@/lib/resend";
 import { log } from "@/lib/utils";
@@ -145,9 +146,9 @@ export async function processEmailQueue() {
 
                   return {
                     email: {
-                      from: "Papermark <system@papermark.com>",
+                      from: EMAIL_FROM,
                       to: userTeam.user.email || "delivered@resend.dev",
-                      subject: "2024 in Review: Your Year with Papermark",
+                      subject: `2024 in Review: Your Year with ${BRAND_NAME}`,
                       react,
                       text: plainText,
                       headers: {

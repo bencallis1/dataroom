@@ -1,6 +1,7 @@
-import ConfirmEmailChange from "@/components/emails/verification-email-change";
-
+import { BRAND_NAME } from "@/lib/branding";
 import { sendEmail } from "@/lib/resend";
+
+import ConfirmEmailChange from "@/components/emails/verification-email-change";
 
 export const sendEmailChangeVerificationRequestEmail = async (params: {
   email: string;
@@ -19,7 +20,7 @@ export const sendEmailChangeVerificationRequestEmail = async (params: {
     await sendEmail({
       to: email,
       system: true,
-      subject: "Confirm your email address change for Papermark!",
+      subject: `Confirm your email address change for ${BRAND_NAME}!`,
       react: emailTemplate,
       test: process.env.NODE_ENV === "development",
     });

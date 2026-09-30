@@ -19,7 +19,7 @@ import { MultiSelect } from "@/components/ui/multi-select-v2";
 import { Separator } from "@/components/ui/separator";
 
 export default function DataroomsPage() {
-  const { datarooms } = useDatarooms();
+  const { datarooms, totalCount: totalDatarooms } = useDatarooms();
   const router = useRouter();
 
   const [tagsFilter, setTagsFilter] = useQueryState<string[]>("tags", {

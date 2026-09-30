@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { mutate } from "swr";
 import { useDebounce } from "use-debounce";
 
+import { BRAND_HOST, BRAND_NAME } from "@/lib/branding";
 import { usePlan } from "@/lib/swr/use-billing";
 import { useBrand } from "@/lib/swr/use-brand";
 import { cn, convertDataUrlToFile, uploadImage } from "@/lib/utils";
@@ -267,7 +268,7 @@ export default function Branding() {
                 Global Branding
               </h1>
               <p className="text-xs text-muted-foreground sm:text-sm">
-                Customize how your brand appears globally across Papermark
+                Customize how your brand appears globally across {BRAND_NAME}
                 documents and data rooms your visitors see.
               </p>
             </div>
@@ -308,10 +309,8 @@ export default function Branding() {
                     individually.
                   </span>
                   <BadgeTooltip
-                    linkText="Click here"
                     content="How to customize document branding?"
                     key="branding"
-                    link="https://www.papermark.com/help/article/document-branding"
                   >
                     <CircleHelpIcon className="h-4 w-4 shrink-0 text-muted-foreground hover:text-foreground" />
                   </BadgeTooltip>
@@ -838,7 +837,7 @@ export default function Branding() {
                               </svg>
                             </div>
                             <span className="whitespace-normal text-xs text-muted-foreground">
-                              papermark.com/view/...
+                              {BRAND_HOST}/view/...
                             </span>
                           </div>
                         </div>
@@ -906,7 +905,7 @@ export default function Branding() {
                                 </svg>
                               </div>
                               <span className="whitespace-normal text-xs text-muted-foreground">
-                                papermark.com/view/...
+                                {BRAND_HOST}/view/...
                               </span>
                             </div>
                           </div>
@@ -974,7 +973,7 @@ export default function Branding() {
                               </svg>
                             </div>
                             <span className="whitespace-normal text-xs text-muted-foreground">
-                              papermark.com/view/...
+                              {BRAND_HOST}/view/...
                             </span>
                           </div>
                         </div>

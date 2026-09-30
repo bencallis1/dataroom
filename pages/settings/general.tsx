@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { mutate } from "swr";
 
 import { useAnalytics } from "@/lib/analytics";
+import { BRAND_NAME } from "@/lib/branding";
 import { usePlan } from "@/lib/swr/use-billing";
 import { useTeamSettings } from "@/lib/swr/use-team-settings";
 import { validateContent } from "@/lib/utils/sanitize-html";
@@ -182,7 +183,7 @@ export default function General() {
         <div className="space-y-6">
           <Form
             title="Team Name"
-            description="This is the name of your team on Papermark."
+            description={`This is the name of your team on ${BRAND_NAME}.`}
             inputAttrs={{
               name: "name",
               placeholder: "My Personal Team",

@@ -783,14 +783,6 @@ export default function UpgradeHolidayOfferPage() {
           All plans include unlimited viewers and page by page document
           analytics.
         </p>
-        <a
-          href="https://cal.com/marcseitz/papermark"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-        >
-          Looking for Papermark Enterprise?
-        </a>
       </div>
     </div>
   );

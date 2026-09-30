@@ -8,6 +8,7 @@ import { signIn } from "next-auth/react";
 
 import { useAnalytics } from "@/lib/analytics";
 import { STAGGER_CHILD_VARIANTS } from "@/lib/constants";
+import { BRAND_NAME } from "@/lib/branding";
 
 import { timeFormatter } from "../charts/utils";
 import { Button } from "../ui/button";
@@ -80,7 +81,7 @@ export default function ViewDurationSummary({
             Thanks for creating an account!
           </h1>
           <p className="max-w-lg text-balance text-white">
-            We sent you an email confirmation with a link to your Papermark
+            We sent you an email confirmation with a link to your {BRAND_NAME}
             account.
           </p>
         </motion.div>
@@ -191,7 +192,7 @@ export default function ViewDurationSummary({
           </form>
           <p className="mt-4 w-full max-w-md px-4 text-xs text-muted-foreground sm:px-16">
             By clicking continue, you acknowledge that you have read and agree
-            to Papermark&apos;s{" "}
+            to {BRAND_NAME}&apos;s{" "}
             <Link
               href={`${process.env.NEXT_PUBLIC_MARKETING_URL}/terms`}
               target="_blank"

@@ -8,6 +8,7 @@ import { CircleHelpIcon, CopyIcon } from "lucide-react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
+import { BRAND_NAME } from "@/lib/branding";
 import { copyToClipboard, fetcher } from "@/lib/utils";
 
 import AppLayout from "@/components/layouts/app";
@@ -128,8 +129,9 @@ export default function TokenSettings() {
                 </BadgeTooltip>
               </div>
               <p className="text-sm text-gray-500">
-                Create API tokens to integrate Papermark with your applications.
-                Keep your tokens secure and never share them publicly.
+                Create API tokens to integrate {BRAND_NAME} with your
+                applications. Keep your tokens secure and never share them
+                publicly.
               </p>
             </div>
           </div>

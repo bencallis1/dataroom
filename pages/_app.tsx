@@ -7,6 +7,7 @@ import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { NuqsAdapter } from "nuqs/adapters/next/pages";
 
+import { BRAND_NAME, BRAND_URL } from "@/lib/branding";
 import { EXCLUDED_PATHS } from "@/lib/constants";
 
 import { PostHogCustomProvider } from "@/components/providers/posthog-provider";
@@ -26,47 +27,27 @@ export default function App({
   return (
     <>
       <Head>
-        <title>Document Locker</title>
+        <title>{BRAND_NAME}</title>
         <meta name="theme-color" content="#000000" />
         <meta
           name="description"
-          content="Papermark is an open-source document sharing alternative to DocSend with built-in analytics."
+          content="Secure document sharing and data rooms"
           key="description"
         />
-        <meta
-          property="og:title"
-          content="Papermark | The Open Source DocSend Alternative"
-          key="og-title"
-        />
+        <meta property="og:title" content={BRAND_NAME} key="og-title" />
         <meta
           property="og:description"
-          content="Papermark is an open-source document sharing alternative to DocSend with built-in analytics."
+          content="Secure document sharing and data rooms"
           key="og-description"
         />
-        <meta
-          property="og:image"
-          content="https://www.papermark.com/_static/meta-image.png"
-          key="og-image"
-        />
-        <meta
-          property="og:url"
-          content="https://www.papermark.com"
-          key="og-url"
-        />
+        <meta property="og:url" content={BRAND_URL} key="og-url" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@papermarkio" />
-        <meta name="twitter:creator" content="@papermarkio" />
-        <meta name="twitter:title" content="Papermark" key="tw-title" />
+        <meta name="twitter:title" content={BRAND_NAME} key="tw-title" />
         <meta
           name="twitter:description"
-          content="Papermark is an open-source document sharing alternative to DocSend with built-in analytics."
+          content="Secure document sharing and data rooms"
           key="tw-description"
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.papermark.com/_static/meta-image.png"
-          key="tw-image"
         />
         <link rel="icon" href="/favicon.ico" key="favicon" />
       </Head>

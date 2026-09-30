@@ -12,6 +12,7 @@ import { parsePageId } from "notion-utils";
 import z from "zod";
 
 import { fetchLinkDataById } from "@/lib/api/links/link-data";
+import { BRAND_NAME, BRAND_URL } from "@/lib/branding";
 import { getFeatureFlags } from "@/lib/featureFlags";
 import notion from "@/lib/notion";
 import {
@@ -120,7 +121,7 @@ export default function DataroomDocumentViewPage({
           enableBranding={meta.enableCustomMetatag ?? false}
           title={
             meta.metaTitle ??
-            `${link?.dataroomDocument?.document?.name} | Powered by Papermark`
+            `${link?.dataroomDocument?.document?.name} | Powered by ${BRAND_NAME}`
           }
           description={meta.metaDescription ?? null}
           imageUrl={meta.metaImage ?? null}
@@ -165,7 +166,7 @@ export default function DataroomDocumentViewPage({
         enableBranding={meta.enableCustomMetatag ?? false}
         title={
           meta.metaTitle ??
-          `${link?.dataroomDocument?.document?.name} | Powered by Papermark`
+          `${link?.dataroomDocument?.document?.name} | Powered by ${BRAND_NAME}`
         }
         description={meta.metaDescription ?? null}
         imageUrl={meta.metaImage ?? null}
@@ -287,7 +288,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
           metaDescription: link.metaDescription,
           metaImage: link.metaImage,
           metaFavicon: link.metaFavicon ?? "/favicon.ico",
-          metaUrl: `https://www.papermark.com/view/${linkId}`,
+          metaUrl: `${BRAND_URL}/view/${linkId}`,
         },
         showPoweredByBanner: false,
         showAccountCreationSlide: false,

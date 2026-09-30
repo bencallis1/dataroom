@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BRAND_NAME } from "@/lib/branding";
 
 const DEAL_TYPE_OPTIONS = [
   { value: "startup-fundraising", label: "Startup Fundraising" },
@@ -182,7 +183,7 @@ export function SurveySettings() {
           <div>
             <CardTitle>Team Survey</CardTitle>
             <CardDescription>
-              This will help us tailor your Papermark experience
+              This will help us tailor your {BRAND_NAME} experience
             </CardDescription>
           </div>
           {step === 3 && (
@@ -199,7 +200,7 @@ export function SurveySettings() {
         ) : step === 1 ? (
           <>
             <div className="mb-4">
-              <h3 className="text-lg font-semibold">What do you use Papermark for?</h3>
+              <h3 className="text-lg font-semibold">What do you use {BRAND_NAME} for?</h3>
             </div>
 
             <div className="grid gap-2">

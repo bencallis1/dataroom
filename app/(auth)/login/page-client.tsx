@@ -11,6 +11,7 @@ import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { BRAND_NAME } from "@/lib/branding";
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
@@ -52,7 +53,7 @@ export default function Login() {
             <Link href="https://www.portal.kenshocollective.com" target="_blank">
               <img
                 src="/_static/kensho_logo_header.svg"
-                alt="Papermark Logo"
+                alt={`${BRAND_NAME} Logo`}
                 className="md:mb-48s -mt-8 mb-36 h-7 w-auto self-start sm:mb-32"
               />
             </Link>
@@ -145,26 +146,6 @@ export default function Login() {
               </Button>
             </div>
           </form>
-          <p className="mt-10 w-full max-w-md px-4 text-xs text-muted-foreground sm:px-12">
-            By clicking continue, you acknowledge that you have read and agree
-            to Papermark&apos;s{" "}
-            <a
-              href={`${process.env.NEXT_PUBLIC_MARKETING_URL}/terms`}
-              target="_blank"
-              className="underline"
-            >
-              Terms of Service
-            </a>{" "}
-            and{" "}
-            <a
-              href={`${process.env.NEXT_PUBLIC_MARKETING_URL}/privacy`}
-              target="_blank"
-              className="underline"
-            >
-              Privacy Policy
-            </a>
-            .
-          </p>
         </div>
       </div>
       

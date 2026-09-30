@@ -4,6 +4,7 @@ import { ImageIcon } from "lucide-react";
 import ReactTextareaAutosize from "react-textarea-autosize";
 
 import { PresetDataSchema } from "@/lib/zod/schemas/presets";
+import { BRAND_HOST } from "@/lib/branding";
 
 import { Facebook } from "../shared/icons/facebook";
 import LinkedIn from "../shared/icons/linkedin";
@@ -23,7 +24,7 @@ export default function Preview({
     metaFavicon: favicon,
   } = data;
 
-  const hostname = "papermark.com";
+  const hostname = BRAND_HOST;
 
   return (
     <div>

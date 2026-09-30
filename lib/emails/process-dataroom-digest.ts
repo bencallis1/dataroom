@@ -1,3 +1,4 @@
+import { BRAND_NAME, SUPPORT_EMAIL } from "@/lib/branding";
 import prisma from "@/lib/prisma";
 import {
   DigestBatch,
@@ -116,7 +117,7 @@ async function processBatch(batch: DigestBatch, frequency: "daily" | "weekly") {
     await sendDataroomDigestNotification({
       dataroomName: dataroom?.name ?? "Unknown Dataroom",
       documents,
-      senderEmail: senderUser?.email ?? "noreply@papermark.com",
+      senderEmail: senderUser?.email ?? (SUPPORT_EMAIL || BRAND_NAME),
       to: viewer.email,
       url: linkUrl,
       preferencesUrl,

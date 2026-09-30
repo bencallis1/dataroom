@@ -13,6 +13,8 @@ import {
   Text,
 } from "@react-email/components";
 
+import { BRAND_NAME, COMPANY_NAME } from "@/lib/branding";
+
 const VerificationCodeEmail = ({
   email = "user@example.com",
   code = "45PFSNUDYW",
@@ -23,20 +25,20 @@ const VerificationCodeEmail = ({
   return (
     <Html>
       <Head />
-      <Preview>Your login code for Papermark: {code}</Preview>
+      <Preview>{`Your login code for ${BRAND_NAME}: ${code}`}</Preview>
       <Tailwind>
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 max-w-[600px] rounded border border-solid border-neutral-200 px-10 py-5">
             <Section className="mt-8">
               <Text className="text-2xl font-bold tracking-tighter">
-                Papermark
+                {BRAND_NAME}
               </Text>
             </Section>
             <Heading className="mx-0 my-7 p-0 text-xl font-semibold text-black">
               Your login code
             </Heading>
             <Text className="text-sm leading-6 text-neutral-600">
-              Enter this code to sign in to your Papermark account:
+              Enter this code to sign in to your {BRAND_NAME} account:
             </Text>
             <Section className="my-6">
               <Text
@@ -55,13 +57,7 @@ const VerificationCodeEmail = ({
             </Text>
             <Hr className="my-6" />
             <Section className="text-gray-400">
-              <Text className="text-xs text-neutral-500">
-                Papermark, Inc.
-                <br />
-                1111B S Governors Ave #28117
-                <br />
-                Dover, DE 19904
-              </Text>
+              <Text className="text-xs text-neutral-500">{COMPANY_NAME}</Text>
             </Section>
           </Container>
         </Body>

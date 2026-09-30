@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { BRAND_NAME, BRAND_URL, COMPANY_NAME } from "@/lib/branding";
 
 type InviteViewersModalProps = {
   open: boolean;
@@ -368,7 +369,7 @@ export function InviteViewersModal({
                 </p>
                 <p>
                   <span className="font-medium text-foreground">From:</span>{" "}
-                  system@papermark.com
+                  {BRAND_NAME}
                 </p>
                 <p>
                   <span className="font-medium text-foreground">To:</span>{" "}
@@ -399,7 +400,7 @@ export function InviteViewersModal({
                   </span>{" "}
                   dataroom on{" "}
                   <span className="font-semibold text-foreground">
-                    Papermark
+                    {BRAND_NAME}
                   </span>
                   .
                   <br />
@@ -422,13 +423,13 @@ export function InviteViewersModal({
                   <br />
                   <span className="break-all text-foreground">
                     {selectedLink
-                      ? `https://papermark.com/view/${selectedLink.slug ?? selectedLink.id}`
-                      : "https://papermark.com/view/..."}
+                      ? `${BRAND_URL}/view/${selectedLink.slug ?? selectedLink.id}`
+                      : `${BRAND_URL}/view/...`}
                   </span>
                 </p>
                 <Separator className="my-2" />
                 <p className="text-xs">
-                  © {new Date().getFullYear()} Papermark, Inc. All rights
+                  © {new Date().getFullYear()} {COMPANY_NAME}. All rights
                   reserved.
                 </p>
                 <p className="text-xs">

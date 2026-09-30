@@ -13,6 +13,8 @@ import {
   Text,
 } from "@react-email/components";
 
+import { BRAND_NAME } from "@/lib/branding";
+
 import { Footer } from "./shared/footer";
 
 export default function ViewedDocumentPausedEmail({
@@ -30,7 +32,7 @@ export default function ViewedDocumentPausedEmail({
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 w-[465px] p-5">
             <Text className="mx-0 mb-8 mt-4 p-0 text-center text-2xl font-normal">
-              <span className="font-bold tracking-tighter">Papermark</span>
+              <span className="font-bold tracking-tighter">{BRAND_NAME}</span>
             </Text>
             <Text className="mx-0 my-7 p-0 text-center text-xl font-semibold text-black">
               New Document Visitor

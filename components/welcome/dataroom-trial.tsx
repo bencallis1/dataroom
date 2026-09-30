@@ -11,6 +11,7 @@ import { mutate } from "swr";
 
 import { useAnalytics } from "@/lib/analytics";
 import { STAGGER_CHILD_VARIANTS } from "@/lib/constants";
+import { BRAND_NAME } from "@/lib/branding";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -187,7 +188,7 @@ export default function DataroomTrial() {
         className="flex flex-col items-center space-y-10 text-center"
       >
         <p className="text-2xl font-bold tracking-tighter text-foreground">
-          Papermark
+          {BRAND_NAME}
         </p>
         <h1 className="font-display max-w-lg text-3xl font-semibold transition-colors sm:text-4xl">
           Start a 7-day free trial!
@@ -402,7 +403,7 @@ export default function DataroomTrial() {
                 highlightItem={["datarooms"]}
                 trigger="dataroom_trial_form"
               >
-                <button className="underline">Papermark Data Rooms</button>
+                <button className="underline">{BRAND_NAME} Data Rooms</button>
               </UpgradePlanModal>{" "}
               to continue using data rooms.
             </div>

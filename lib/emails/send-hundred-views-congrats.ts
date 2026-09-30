@@ -1,16 +1,19 @@
-import HundredViewsCongratsEmail from "@/components/emails/hundred-views-congrats";
-
+import { BRAND_NAME } from "@/lib/branding";
 import { sendEmail } from "@/lib/resend";
+
+import HundredViewsCongratsEmail from "@/components/emails/hundred-views-congrats";
 
 import { CreateUserEmailProps } from "../types";
 
-export const sendHundredViewsCongratsEmail = async (params: CreateUserEmailProps) => {
+export const sendHundredViewsCongratsEmail = async (
+  params: CreateUserEmailProps,
+) => {
   const { name, email } = params.user;
   const emailTemplate = HundredViewsCongratsEmail({ name });
   try {
     await sendEmail({
       to: email as string,
-      subject: `100 views on Papermark. Awesome, ${name}`,
+      subject: `100 views on ${BRAND_NAME}. Awesome, ${name}`,
       react: emailTemplate,
       test: process.env.NODE_ENV === "development",
     });

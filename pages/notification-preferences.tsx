@@ -14,10 +14,9 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 
-import PapermarkLogo from "@/public/_static/papermark-logo.svg";
-
 import { Button } from "@/components/ui/button";
 
+import { BRAND_LOGO, BRAND_NAME, BRAND_URL } from "@/lib/branding";
 import prisma from "@/lib/prisma";
 import { verifyUnsubscribeToken } from "@/lib/utils/unsubscribe";
 import { ZViewerNotificationPreferencesSchema } from "@/lib/zod/schemas/notifications";
@@ -168,20 +167,20 @@ export default function NotificationPreferencesPage({
   return (
     <>
       <Head>
-        <title>Notification Preferences | Papermark</title>
+        <title>{`Notification Preferences | ${BRAND_NAME}`}</title>
       </Head>
       <div className="flex min-h-screen flex-col bg-gray-50">
         <header className="px-6 py-5">
           <a
-            href="https://www.papermark.com"
+            href={BRAND_URL}
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image
-              src={PapermarkLogo}
+              src={BRAND_LOGO}
               width={119}
               height={32}
-              alt="Papermark"
+              alt={BRAND_NAME}
             />
           </a>
         </header>
@@ -321,12 +320,12 @@ export default function NotificationPreferencesPage({
             <p className="mt-4 text-center text-xs text-muted-foreground/60">
               Powered by{" "}
               <a
-                href="https://www.papermark.com"
+                href={BRAND_URL}
                 className="underline underline-offset-2 transition-colors hover:text-muted-foreground"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Papermark
+                {BRAND_NAME}
               </a>
             </p>
           </motion.div>

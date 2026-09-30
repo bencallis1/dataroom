@@ -14,6 +14,8 @@ import {
   Text,
 } from "@react-email/components";
 
+import { BRAND_NAME, BRAND_URL } from "@/lib/branding";
+
 import { Footer } from "./shared/footer";
 
 interface TrialEndReminderEmail {
@@ -24,12 +26,12 @@ const DataroomTrial24hReminderEmail = ({ name }: TrialEndReminderEmail) => {
   return (
     <Html>
       <Head />
-      <Preview>Upgrade to Papermark Data Rooms Plan</Preview>
+      <Preview>{`Upgrade to ${BRAND_NAME} Data Rooms Plan`}</Preview>
       <Tailwind>
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 w-[465px] p-5">
             <Text className="mx-0 mb-8 mt-4 p-0 text-center text-2xl font-normal">
-              <span className="font-bold tracking-tighter">Papermark</span>
+              <span className="font-bold tracking-tighter">{BRAND_NAME}</span>
             </Text>
             <Text className="font-seminbold mx-0 mb-8 mt-4 p-0 text-center text-xl">
               Your Data Room plan trial expires in 24 hours
@@ -38,12 +40,9 @@ const DataroomTrial24hReminderEmail = ({ name }: TrialEndReminderEmail) => {
               Hey{name && ` ${name}`}!
             </Text>
             <Text className="text-sm leading-6 text-black">
-              Your Papermark Data Room plan trial expires in 24 hours.
+              Your {BRAND_NAME} Data Room plan trial expires in 24 hours.
               Don&apos;t lose access to these features -{" "}
-              <Link href={`https://app.papermark.com/settings/billing`}>
-                upgrade today
-              </Link>
-              :
+              <Link href={`${BRAND_URL}/settings/billing`}>upgrade today</Link>:
             </Text>
             <ul className="list-inside list-disc text-sm">
               <li>
@@ -68,7 +67,7 @@ const DataroomTrial24hReminderEmail = ({ name }: TrialEndReminderEmail) => {
             <Section className="mb-[32px] mt-[32px] text-center">
               <Button
                 className="rounded bg-black text-center text-xs font-semibold text-white no-underline"
-                href={`https://app.papermark.com/settings/billing`}
+                href={`${BRAND_URL}/settings/billing`}
                 style={{ padding: "12px 20px" }}
               >
                 Upgrade now
@@ -80,7 +79,7 @@ const DataroomTrial24hReminderEmail = ({ name }: TrialEndReminderEmail) => {
               <span className="text-red-500 underline">disabled</span> in 24
               hours.
             </Text>
-            <Text className="text-sm text-gray-400">Marc from Papermark</Text>
+            <Text className="text-sm text-gray-400">The {BRAND_NAME} team</Text>
             <Footer />
           </Container>
         </Body>

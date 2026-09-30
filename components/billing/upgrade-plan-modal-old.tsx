@@ -20,6 +20,7 @@ import { DataroomTrialModal } from "../datarooms/dataroom-trial-modal";
 import X from "../shared/icons/x";
 import { Badge } from "../ui/badge";
 import { Switch } from "../ui/switch";
+import { BRAND_NAME } from "@/lib/branding";
 
 export function UpgradePlanModal({
   clickedPlan,
@@ -53,7 +54,7 @@ export function UpgradePlanModal({
         "Custom branding",
         "Folder organization",
         "Require email verification",
-        "Papermark branding removed",
+        `${BRAND_NAME} branding removed`,
         "1-year analytics retention",
       ];
     }
@@ -286,13 +287,7 @@ export function UpgradePlanModal({
                 </button>
               </DataroomTrialModal>
             ) : (
-              <a
-                href="https://cal.com/marcseitz/papermark"
-                target="_blank"
-                className="underline-offset-4 transition-all hover:text-gray-800 hover:underline hover:dark:text-muted-foreground/80"
-              >
-                Looking for Papermark Enterprise?
-              </a>
+              null
             )}
           </div>
         </div>

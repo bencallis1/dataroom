@@ -1,24 +1,26 @@
 import { Metadata } from "next";
 
+import { BRAND_NAME, BRAND_URL } from "@/lib/branding";
+
 import { GTMComponent } from "@/components/gtm-component";
 
 import LoginClient from "./page-client";
 
 const data = {
-  description: "Login to Kensho Datarooms",
-  title: "Login | Kensho Datarooms",
+  description: `Login to ${BRAND_NAME}`,
+  title: `Login | ${BRAND_NAME}`,
   url: "/login",
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.portal.kenshocollective.com"),
+  metadataBase: new URL(BRAND_URL),
   title: data.title,
   description: data.description,
   openGraph: {
     title: data.title,
     description: data.description,
     url: data.url,
-    siteName: "Kensho Datarooms",
+    siteName: BRAND_NAME,
     images: [
       {
         url: "/_static/meta-image.png",
@@ -33,7 +35,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: data.title,
     description: data.description,
-    creator: "@papermarkio",
     images: ["/_static/meta-image.png"],
   },
 };

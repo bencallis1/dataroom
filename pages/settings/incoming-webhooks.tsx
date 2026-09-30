@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { BadgeTooltip } from "@/components/ui/tooltip";
 
+import { BRAND_NAME } from "@/lib/branding";
 import { copyToClipboard, fetcher } from "@/lib/utils";
 
 interface Webhook {
@@ -126,7 +127,7 @@ export default function WebhookSettings() {
             </CardTitle>
             <CardDescription>
               Create incoming webhooks to receive data from external services
-              and automatically create new documents in Papermark.
+              and automatically create new documents in {BRAND_NAME}.
             </CardDescription>
           </CardHeader>
           <Separator className="mb-6" />

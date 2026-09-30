@@ -7,6 +7,7 @@ import X from "@/components/shared/icons/x";
 import { Button } from "@/components/ui/button";
 
 import { UpgradePlanModal } from "./upgrade-plan-modal";
+import { BRAND_NAME } from "@/lib/branding";
 
 export default function ProBanner({
   setShowProBanner,
@@ -31,7 +32,7 @@ export default function ProBanner({
         <span className="sr-only">Close</span>
       </button>
       <div className="flex space-x-2">
-        <span className="text-sm font-bold">✨ Papermark Business ✨</span>
+        <span className="text-sm font-bold">✨ {BRAND_NAME} Business ✨</span>
       </div>
       <p className="my-4 text-sm">
         Upgrade to unlock custom branding, team members, domains and data rooms.

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useTeam } from "@/context/team-context";
 import { CheckCircleIcon, XIcon } from "lucide-react";
 import { toast } from "sonner";
+import { BRAND_NAME } from "@/lib/branding";
 
 const DEAL_TYPE_OPTIONS = [
   { value: "startup-fundraising", label: "Startup Fundraising" },
@@ -203,7 +204,7 @@ export function DealflowPopup() {
           <>
             <div className="mb-4 flex items-start justify-between">
               <div>
-                <h3 className="text-lg font-semibold">What do you use Papermark for?</h3>
+                <h3 className="text-lg font-semibold">What do you use {BRAND_NAME} for?</h3>
                
               </div>
               <button
@@ -261,7 +262,7 @@ export function DealflowPopup() {
             </div>
 
             <p className="mt-3 text-xs text-muted-foreground">
-              This will help us tailor your Papermark experience
+              This will help us tailor your {BRAND_NAME} experience
             </p>
           </>
         ) : step === 2 ? (
@@ -294,7 +295,7 @@ export function DealflowPopup() {
             </div>
 
             <p className="mt-3 text-xs text-muted-foreground">
-              This will help us tailor your Papermark experience
+              This will help us tailor your {BRAND_NAME} experience
             </p>
           </>
         ) : (

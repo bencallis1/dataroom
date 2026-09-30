@@ -13,6 +13,8 @@ import {
   Text,
 } from "@react-email/components";
 
+import { BRAND_NAME, BRAND_URL, COMPANY_NAME } from "@/lib/branding";
+
 const Onboarding1Email = () => {
   const previewText = `Share documents not attachments`;
 
@@ -24,7 +26,7 @@ const Onboarding1Email = () => {
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 w-[465px] p-5">
             <Text className="mx-0 mb-8 mt-4 p-0 text-center text-2xl font-normal">
-              <span className="font-bold tracking-tighter">Papermark</span>
+              <span className="font-bold tracking-tighter">{BRAND_NAME}</span>
             </Text>
             <Text className="mx-0 mb-8 mt-4 p-0 text-center text-2xl font-normal">
               Turn your documents into links
@@ -33,8 +35,8 @@ const Onboarding1Email = () => {
               It all starts from sharing your first document!
             </Text>
             <Text className="text-sm">
-              With Papermark you can upload different kind of documents and turn
-              them into shareable links:
+              With {BRAND_NAME} you can upload different kind of documents and
+              turn them into shareable links:
             </Text>
             <ul className="list-inside list-disc text-sm">
               <li>PDFs</li>
@@ -53,7 +55,7 @@ const Onboarding1Email = () => {
             <Section className="my-8 text-center">
               <Button
                 className="rounded bg-black text-center text-xs font-semibold text-white no-underline"
-                href={`https://app.papermark.com/documents?utm_source=onboarding&utm_medium=email&utm_campaign=20240723&utm_content=upload_documents`}
+                href={`${BRAND_URL}/documents?utm_source=onboarding&utm_medium=email&utm_campaign=20240723&utm_content=upload_documents`}
                 style={{ padding: "12px 20px" }}
               >
                 Upload my documents
@@ -65,7 +67,7 @@ const Onboarding1Email = () => {
             <Hr />
             <Section className="text-gray-400">
               <Text className="text-xs">
-                © {new Date().getFullYear()} Papermark, Inc. All rights
+                © {new Date().getFullYear()} {COMPANY_NAME}. All rights
                 reserved.
               </Text>
               <Text className="text-xs">

@@ -59,10 +59,8 @@ export default function DataroomAnalyticsPage() {
                 <p className="flex flex-row items-center gap-2 text-sm text-muted-foreground">
                   Share data room with strong access controls using links.
                   <BadgeTooltip
-                    linkText="Learn more"
                     content="Configure access controls for data room links."
                     key="links"
-                    link="https://www.papermark.com/help/category/links"
                   >
                     <CircleHelpIcon className="h-4 w-4 shrink-0 text-muted-foreground hover:text-foreground" />
                   </BadgeTooltip>

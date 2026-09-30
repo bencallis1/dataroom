@@ -17,6 +17,7 @@ import {
 } from "@/lib/documents/create-document";
 import { putFile } from "@/lib/files/put-file";
 import { getSupportedContentType } from "@/lib/utils/get-content-type";
+import { BRAND_URL } from "@/lib/branding";
 
 import DocumentUpload from "@/components/document-upload";
 import { Button } from "@/components/ui/button";
@@ -157,7 +158,7 @@ export default function AgreementSheet({
         const linkId = document.links[0].id;
         setData((prevData) => ({
           ...prevData,
-          link: "https://www.papermark.com/view/" + linkId,
+          link: `${BRAND_URL}/view/${linkId}`,
         }));
       }
     } catch (error) {
@@ -353,7 +354,7 @@ export default function AgreementSheet({
                       required={data.contentType === "LINK"}
                       autoComplete="off"
                       data-1p-ignore
-                      placeholder="https://www.papermark.com/nda"
+                      placeholder="https://example.com/nda"
                       value={data.link || ""}
                       onChange={(e) => {
                         const newValue = e.target.value;

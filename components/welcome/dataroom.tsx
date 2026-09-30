@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { motion } from "motion/react";
 
 import { STAGGER_CHILD_VARIANTS } from "@/lib/constants";
+import { BRAND_NAME } from "@/lib/branding";
 
 import { Button } from "../ui/button";
 
@@ -31,32 +32,11 @@ export default function Dataroom() {
         className="flex flex-col items-center space-y-10 text-center"
       >
         <p className="text-2xl font-bold tracking-tighter text-foreground">
-          Papermark
+          {BRAND_NAME}
         </p>
         <h1 className="font-display max-w-xl text-3xl font-semibold transition-colors sm:text-4xl">
           Get started with data rooms!
         </h1>
-      </motion.div>
-      <motion.div
-        variants={STAGGER_CHILD_VARIANTS}
-        className="mx-auto mt-24 w-full"
-      >
-        <video
-          width="100%"
-          id="video1"
-          style={{ borderRadius: "6px" }}
-          aria-hidden="true"
-          playsInline
-          autoPlay
-          muted
-          loop
-          controls
-        >
-          <source
-            src="https://assets.papermark.io/upload/file_A4qNV68jr3MAUayMNi3WmY-Data-Room-demo-2.mp4"
-            type="video/mp4"
-          />
-        </video>
       </motion.div>
       <motion.div
         variants={STAGGER_CHILD_VARIANTS}

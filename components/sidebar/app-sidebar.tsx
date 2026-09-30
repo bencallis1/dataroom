@@ -28,6 +28,7 @@ import { usePlan } from "@/lib/swr/use-billing";
 import useDataroomsSimple from "@/lib/swr/use-datarooms-simple";
 import useLimits from "@/lib/swr/use-limits";
 import { nFormatter } from "@/lib/utils";
+import { BRAND_NAME } from "@/lib/branding";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavUser } from "@/components/sidebar/nav-user";
@@ -222,10 +223,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     >
       <SidebarHeader className="gap-y-8">
         <p className="hidden w-full justify-center text-2xl font-bold tracking-tighter text-black group-data-[collapsible=icon]:inline-flex dark:text-white">
-          <Link href="/dashboard">P</Link>
+          <Link href="/dashboard">{BRAND_NAME.charAt(0)}</Link>
         </p>
         <p className="ml-2 flex items-center text-2xl font-bold tracking-tighter text-black group-data-[collapsible=icon]:hidden dark:text-white">
-          <Link href="/dashboard">Papermark</Link>
+          <Link href="/dashboard">{BRAND_NAME}</Link>
           {userPlan && !isFree && !isDataroomsPlus && !isDataroomsPremium ? (
             <span className="relative ml-4 inline-flex items-center rounded-full bg-background px-2.5 py-1 text-xs tracking-normal text-foreground ring-1 ring-gray-800">
               {userPlan.charAt(0).toUpperCase() + userPlan.slice(1)}

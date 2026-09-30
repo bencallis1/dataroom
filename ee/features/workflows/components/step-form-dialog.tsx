@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SingleSelect } from "@/components/ui/single-select";
 import { Textarea } from "@/components/ui/textarea";
+import { BRAND_HOST } from "@/lib/branding";
 
 interface WorkflowStep {
   id: string;
@@ -327,7 +328,7 @@ export function StepFormDialog({
                     )}
                     {!link.domainSlug && link.slug && (
                       <span className="font-mono text-xs text-muted-foreground">
-                        papermark.com/{link.slug}
+                        {BRAND_HOST}/{link.slug}
                       </span>
                     )}
                     <span className="font-mono text-xs text-muted-foreground">

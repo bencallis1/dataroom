@@ -255,15 +255,7 @@ export default function Nav({
                   // quality={100}
                   // priority
                 />
-              ) : (
-                <Link
-                  href={`https://www.papermark.com?utm_campaign=navbar&utm_medium=navbar&utm_source=papermark-${linkId}`}
-                  target="_blank"
-                  className="text-2xl font-bold tracking-tighter text-white"
-                >
-                  Papermark
-                </Link>
-              )}
+              ) : null}
             </div>
             {isDataroom ? (
               <Breadcrumb className="ml-6">

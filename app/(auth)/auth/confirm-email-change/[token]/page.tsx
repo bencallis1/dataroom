@@ -6,6 +6,7 @@ import { VerificationToken } from "@prisma/client";
 import { waitUntil } from "@vercel/functions";
 
 import { hashToken } from "@/lib/api/auth/token";
+import { BRAND_NAME, BRAND_URL } from "@/lib/branding";
 import prisma from "@/lib/prisma";
 import { redis } from "@/lib/redis";
 import { sendEmail, subscribe, unsubscribe } from "@/lib/resend";
@@ -20,19 +21,19 @@ export const runtime = "nodejs";
 
 const data = {
   description: "Confirm email change",
-  title: "Confirm email change | Papermark",
+  title: `Confirm email change | ${BRAND_NAME}`,
   url: "/auth/confirm-email-change",
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.papermark.com"),
+  metadataBase: new URL(BRAND_URL),
   title: data.title,
   description: data.description,
   openGraph: {
     title: data.title,
     description: data.description,
     url: data.url,
-    siteName: "Papermark",
+    siteName: BRAND_NAME,
     images: [
       {
         url: "/_static/meta-image.png",
@@ -47,7 +48,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: data.title,
     description: data.description,
-    creator: "@papermarkio",
     images: ["/_static/meta-image.png"],
   },
 };

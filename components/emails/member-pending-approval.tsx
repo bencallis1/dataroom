@@ -13,6 +13,8 @@ import {
   Text,
 } from "@react-email/components";
 
+import { BRAND_NAME } from "@/lib/branding";
+
 import { Footer } from "./shared/footer";
 
 export default function MemberPendingApproval({
@@ -36,7 +38,7 @@ export default function MemberPendingApproval({
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 w-[465px] p-5">
             <Text className="mx-0 mb-8 mt-4 p-0 text-center text-2xl font-normal">
-              <span className="font-bold tracking-tighter">Papermark</span>
+              <span className="font-bold tracking-tighter">{BRAND_NAME}</span>
             </Text>
             <Text className="mx-0 mb-8 mt-4 p-0 text-center text-xl font-semibold">
               New member awaiting approval
@@ -44,12 +46,8 @@ export default function MemberPendingApproval({
             <Text className="text-sm leading-6 text-black">Hi,</Text>
             <Text className="text-sm leading-6 text-black">
               <span className="font-semibold">{memberName || memberEmail}</span>
-              {memberName ? (
-                <>
-                  {" "}({memberEmail})
-                </>
-              ) : null}{" "}
-              has accepted an invitation to join{" "}
+              {memberName ? <> ({memberEmail})</> : null} has accepted an
+              invitation to join{" "}
               <span className="font-semibold">{teamName}</span> and is waiting
               for your approval before they can access the workspace.
             </Text>

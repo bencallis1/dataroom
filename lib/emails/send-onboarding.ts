@@ -1,3 +1,4 @@
+import { BRAND_NAME, SUPPORT_EMAIL } from "@/lib/branding";
 import { sendEmail } from "@/lib/resend";
 
 import Onboarding5Email from "@/components/emails/data-rooms-information";
@@ -27,7 +28,7 @@ export const sendOnboardingEmail = async (
   switch (emailType) {
     case "onboarding1":
       emailTemplate = Onboarding1Email();
-      subject = "Day 1 with Papermark - Turn your documents into links";
+      subject = `Day 1 with ${BRAND_NAME} - Turn your documents into links`;
       break;
     case "onboarding2":
       emailTemplate = Onboarding2Email();
@@ -47,7 +48,7 @@ export const sendOnboardingEmail = async (
       break;
     default:
       emailTemplate = Onboarding1Email();
-      subject = "Day 1 with Papermark - Turn your documents into links";
+      subject = `Day 1 with ${BRAND_NAME} - Turn your documents into links`;
       break;
   }
 
@@ -55,7 +56,7 @@ export const sendOnboardingEmail = async (
     await sendEmail({
       to: email as string,
       subject,
-      replyTo: "Papermark <support@papermark.com>",
+      replyTo: SUPPORT_EMAIL || undefined,
       react: emailTemplate,
       test: process.env.NODE_ENV === "development",
     });

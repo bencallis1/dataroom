@@ -4,6 +4,7 @@ import * as ProgressPrimitive from "@radix-ui/react-progress";
 import { HelpCircleIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { SUPPORT_EMAIL } from "@/lib/branding";
 
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
@@ -47,9 +48,11 @@ const Progress = React.forwardRef<
         <div className="absolute inset-0 flex items-center justify-center py-2">
           <div className="absolute inset-0 flex items-center justify-center gap-x-2 overflow-hidden bg-destructive text-destructive-foreground">
             <span className="text-xs">{text}</span>
-            <a href="mailto:support@papermark.com" title="Contact Support">
-              <HelpCircleIcon className="size-4" />
-            </a>
+            {SUPPORT_EMAIL ? (
+              <a href={`mailto:${SUPPORT_EMAIL}`} title="Contact Support">
+                <HelpCircleIcon className="size-4" />
+              </a>
+            ) : null}
           </div>
         </div>
       ) : null}

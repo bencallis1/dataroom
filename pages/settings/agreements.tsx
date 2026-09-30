@@ -58,8 +58,6 @@ export default function NdaAgreements() {
                 <BadgeTooltip
                   content="How to require NDA agreement before viewing documents?"
                   key="nda-help"
-                  linkText="Learn more"
-                  link="https://www.papermark.com/help/article/require-nda-to-view"
                 >
                   <CircleHelpIcon className="h-4 w-4 shrink-0 text-muted-foreground hover:text-foreground" />
                 </BadgeTooltip>

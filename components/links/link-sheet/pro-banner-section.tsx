@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { DEFAULT_LINK_TYPE } from ".";
 import LinkItem from "./link-item";
 import { LinkUpgradeOptions } from "./link-options";
+import { BRAND_NAME } from "@/lib/branding";
 
 export function ProBannerSection({
   data,
@@ -36,9 +37,8 @@ export function ProBannerSection({
   return (
     <div className="pb-5">
       <LinkItem
-        title="Show Secured by Papermark"
-        tooltipContent="Display 'Secured by Papermark' branding on your shared documents"
-        link="https://www.papermark.com/help/article/remove-papermark-branding"
+        title={`Show Secured by ${BRAND_NAME}`}
+        tooltipContent={`Display 'Secured by ${BRAND_NAME}' branding on your shared documents`}
         enabled={enabled}
         action={handleShowBanner}
         isAllowed={isAllowed}

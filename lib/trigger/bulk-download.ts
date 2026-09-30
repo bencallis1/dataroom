@@ -4,6 +4,7 @@ import { sendDownloadReadyEmail } from "@/lib/emails/send-download-ready-email";
 import prisma from "@/lib/prisma";
 import { downloadJobStore } from "@/lib/redis-download-job-store";
 import { constructLinkUrl } from "@/lib/utils/link-url";
+import { BRAND_URL } from "@/lib/branding";
 
 // Maximum files per batch (Lambda payload limit)
 const MAX_FILES_PER_BATCH = 500;
@@ -545,7 +546,7 @@ async function sendEmailNotification({
       });
       downloadUrl = link
         ? `${constructLinkUrl(link)}/downloads`
-        : `${process.env.NEXT_PUBLIC_MARKETING_URL || "https://www.papermark.com"}/view/${linkId}/downloads`;
+        : `${BRAND_URL}/view/${linkId}/downloads`;
       isViewer = true;
     } else {
       const baseUrl = process.env.NEXTAUTH_URL || "https://app.papermark.com";

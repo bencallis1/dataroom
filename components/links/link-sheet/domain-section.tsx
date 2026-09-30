@@ -19,6 +19,7 @@ import { BLOCKED_PATHNAMES } from "@/lib/constants";
 import { BasePlan, usePlan } from "@/lib/swr/use-billing";
 import useLimits from "@/lib/swr/use-limits";
 import { cn } from "@/lib/utils";
+import { BRAND_HOST } from "@/lib/branding";
 
 import { UpgradePlanModal } from "@/components/billing/upgrade-plan-modal";
 import { AddDomainModal } from "@/components/domains/add-domain-modal";
@@ -216,7 +217,7 @@ export default function DomainSection({
           </SelectTrigger>
           <SelectContent className="flex w-full rounded-md border border-input bg-white text-foreground placeholder-muted-foreground focus:border-muted-foreground focus:outline-none focus:ring-inset focus:ring-muted-foreground dark:border-gray-500 dark:bg-gray-800 focus:dark:bg-transparent sm:text-sm">
             <SelectItem value="papermark.com" className="hover:bg-muted">
-              papermark.com
+              {BRAND_HOST}
             </SelectItem>
             {linkType === "DOCUMENT_LINK" && (
               <>

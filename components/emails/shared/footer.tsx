@@ -1,5 +1,7 @@
 import { Hr, Link, Section, Text } from "@react-email/components";
 
+import { BRAND_URL, COMPANY_NAME } from "@/lib/branding";
+
 export const Footer = ({
   withAddress = false,
   marketing = false,
@@ -18,18 +20,12 @@ export const Footer = ({
           Don&apos;t want to get these emails?{" "}
           <Link
             className="text-neutral-700 underline"
-            href="https://app.papermark.com/account/general"
+            href={`${BRAND_URL}/account/general`}
           >
             Unsubscribe here.
           </Link>
         </Text>
-        <Text className="text-[12px] text-neutral-500">
-          Papermark, Inc.
-          <br />
-          1111B S Governors Ave #28117
-          <br />
-          Dover, DE 19904
-        </Text>
+        <Text className="text-[12px] text-neutral-500">{COMPANY_NAME}</Text>
       </>
     );
   }
@@ -39,13 +35,7 @@ export const Footer = ({
       <Hr />
       <Section className="text-gray-400">
         <Text className="text-xs">
-          © {new Date().getFullYear()} Papermark, Inc. All rights reserved.{" "}
-          {withAddress && (
-            <>
-              <br />
-              1111B S Governors Ave #28117, Dover, DE 19904
-            </>
-          )}
+          © {new Date().getFullYear()} {COMPANY_NAME}. All rights reserved.
         </Text>
         <Text className="text-xs">{footerText}</Text>
       </Section>

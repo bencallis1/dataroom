@@ -39,6 +39,7 @@ import useLimits from "@/lib/swr/use-limits";
 import { LinkWithViews, WatermarkConfig } from "@/lib/types";
 import { cn, copyToClipboard, nFormatter, timeAgo } from "@/lib/utils";
 import { useMediaQuery } from "@/lib/utils/use-media-query";
+import { BRAND_HOST } from "@/lib/branding";
 
 import { UpgradePlanModal } from "@/components/billing/upgrade-plan-modal";
 import { Button } from "@/components/ui/button";
@@ -113,7 +114,7 @@ const getDisplayUrl = (link: LinkWithViews) => {
   if (link.domainId) {
     return `${link.domainSlug}/${link.slug}`;
   }
-  return `papermark.com/view/${link.id}`;
+  return `${BRAND_HOST}/view/${link.id}`;
 };
 
 // Link URL cell component - displays URL with click-to-copy hover overlay

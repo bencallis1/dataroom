@@ -8,6 +8,7 @@ import { useTeam } from "@/context/team-context";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 import { useAnalytics } from "@/lib/analytics";
+import { BRAND_NAME } from "@/lib/branding";
 
 import { Button } from "@/components/ui/button";
 
@@ -156,7 +157,7 @@ export function YearlyRecapBanner() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 sm:text-xl">
-                  Papermark Wrapped {currentYear}
+                  {BRAND_NAME} Wrapped {currentYear}
                 </h3>
                 <p className="text-xs text-gray-600 sm:text-sm">
                   Your year in document sharing

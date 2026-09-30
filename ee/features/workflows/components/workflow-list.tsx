@@ -3,6 +3,7 @@ import Link from "next/link";
 import { timeAgo } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
+import { BRAND_URL } from "@/lib/branding";
 
 interface Workflow {
   id: string;
@@ -30,7 +31,7 @@ export function WorkflowList({ workflows }: WorkflowListProps) {
     if (workflow.entryLink.domainSlug && workflow.entryLink.slug) {
       return `https://${workflow.entryLink.domainSlug}/${workflow.entryLink.slug}`;
     }
-    return `${process.env.NEXT_PUBLIC_MARKETING_URL || "https://www.papermark.com"}/view/${workflow.entryLink.id}`;
+    return `${BRAND_URL}/view/${workflow.entryLink.id}`;
   };
 
   return (

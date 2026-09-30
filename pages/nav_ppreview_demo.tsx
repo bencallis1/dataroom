@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
+import { BRAND_NAME } from "@/lib/branding";
+
 export default function ViewPage() {
   const router = useRouter();
   const { brandLogo, brandColor, accentColor } = router.query as {
@@ -31,7 +33,7 @@ export default function ViewPage() {
                   />
                 ) : (
                   <div className="text-2xl font-bold tracking-tighter text-white">
-                    Papermark
+                    {BRAND_NAME}
                   </div>
                 )}
               </div>

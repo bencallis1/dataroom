@@ -14,6 +14,7 @@ import AppLayout from "@/components/layouts/app";
 import { StepFormDialog } from "../components/step-form-dialog";
 import { StepList } from "../components/step-list";
 import { WorkflowHeader } from "../components/workflow-header";
+import { BRAND_URL } from "@/lib/branding";
 
 interface Workflow {
   id: string;
@@ -103,7 +104,7 @@ export default function WorkflowDetailPage() {
     if (workflow.entryLink.domainSlug && workflow.entryLink.slug) {
       return `https://${workflow.entryLink.domainSlug}/${workflow.entryLink.slug}`;
     }
-    return `${process.env.NEXT_PUBLIC_MARKETING_URL || "https://www.papermark.com"}/view/${workflow.entryLink.id}`;
+    return `${BRAND_URL}/view/${workflow.entryLink.id}`;
   };
 
   const handleDeleteStep = async (stepId: string) => {

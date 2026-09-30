@@ -14,6 +14,7 @@ import CustomFieldsSection from "./custom-fields-section";
 import EmailSection from "./email-section";
 import NameSection from "./name-section";
 import PasswordSection from "./password-section";
+import { BRAND_NAME, BRAND_URL } from "@/lib/branding";
 
 export const DEFAULT_ACCESS_FORM_DATA = {
   email: null,
@@ -215,13 +216,13 @@ export default function AccessForm({
           >
             This document is securely shared with you using{" "}
             <a
-              href="https://www.papermark.com"
+              href={BRAND_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium"
               style={{ color: accessFormTheme.mutedTextColor }}
             >
-              Papermark
+              {BRAND_NAME}
             </a>
             .
           </p>

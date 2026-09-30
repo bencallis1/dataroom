@@ -8,6 +8,7 @@ import { FileText } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
 import { cn } from "@/lib/utils";
+import { SUPPORT_EMAIL } from "@/lib/branding";
 
 import ChevronUp from "@/components/shared/icons/chevron-up";
 import {
@@ -140,13 +141,15 @@ const ProfileMenu = ({ className, size }: ProfileMenuProps) => {
                     Need help?
                   </button>
 
-                  <a
-                    href="mailto:support@papermark.com"
-                    className="my-1 flex items-center px-3 py-2 text-sm duration-200 hover:bg-gray-200 dark:hover:bg-muted"
-                  >
-                    <HelpCircle className="mr-2 h-4 w-4" />
-                    Contact us
-                  </a>
+                  {SUPPORT_EMAIL ? (
+                    <a
+                      href={`mailto:${SUPPORT_EMAIL}`}
+                      className="my-1 flex items-center px-3 py-2 text-sm duration-200 hover:bg-gray-200 dark:hover:bg-muted"
+                    >
+                      <HelpCircle className="mr-2 h-4 w-4" />
+                      Contact us
+                    </a>
+                  ) : null}
 
                   <Link
                     onClick={() =>

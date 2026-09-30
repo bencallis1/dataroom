@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { ModeToggle } from "../theme-toggle";
+import { SUPPORT_EMAIL } from "@/lib/branding";
 
 interface Article {
   data: {
@@ -163,15 +164,17 @@ export function NavUser() {
                   <LifeBuoyIcon />
                   Help Center
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => {
-                    navigator.clipboard.writeText("support@papermark.com");
-                    toast.success("support@papermark.com copied to clipboard");
-                  }}
-                >
-                  <MailIcon />
-                  Contact Support
-                </DropdownMenuItem>
+                {SUPPORT_EMAIL ? (
+                  <DropdownMenuItem
+                    onClick={() => {
+                      navigator.clipboard.writeText(SUPPORT_EMAIL);
+                      toast.success(`${SUPPORT_EMAIL} copied to clipboard`);
+                    }}
+                  >
+                    <MailIcon />
+                    Contact Support
+                  </DropdownMenuItem>
+                ) : null}
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem

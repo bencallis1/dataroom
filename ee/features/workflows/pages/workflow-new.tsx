@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { BRAND_HOST } from "@/lib/branding";
 
 interface Domain {
   id: string;
@@ -133,10 +134,10 @@ export default function NewWorkflowPage() {
                 <Label htmlFor="domain">Domain</Label>
                 <Select value={domain} onValueChange={setDomain}>
                   <SelectTrigger id="domain">
-                    <SelectValue placeholder="papermark.com (default)" />
+                    <SelectValue placeholder={`${BRAND_HOST} (default)`} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="papermark.com">papermark.com</SelectItem>
+                    <SelectItem value="papermark.com">{BRAND_HOST}</SelectItem>
                     {domains?.map((d) => (
                       <SelectItem key={d.id} value={d.slug}>
                         {d.slug}
@@ -172,7 +173,7 @@ export default function NewWorkflowPage() {
 
               {domain === "papermark.com" && (
                 <p className="text-xs text-muted-foreground">
-                  Entry URL will be generated automatically (e.g., papermark.com/view/clxxx...)
+                  Entry URL will be generated automatically (e.g., {BRAND_HOST}/view/clxxx...)
                 </p>
               )}
             </div>

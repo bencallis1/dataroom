@@ -8,6 +8,7 @@ import { motion } from "motion/react";
 import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
 import { cn, fetcher, validateImageDimensions } from "@/lib/utils";
 import { resizeImage } from "@/lib/utils/resize-image";
+import { BRAND_NAME } from "@/lib/branding";
 
 import { Input } from "@/components/ui/input";
 import LoadingSpinner from "@/components/ui/loading-spinner";
@@ -139,7 +140,6 @@ export default function OGSection({
       <LinkItem
         tooltipContent="Customize how your links look when shared."
         title="Custom Link Preview"
-        link="https://www.papermark.com/help/article/change-social-media-cards"
         enabled={enableCustomMetatag}
         action={handleCustomMetatag}
         isAllowed={isAllowed}
@@ -406,7 +406,7 @@ export default function OGSection({
                 id="title"
                 maxLength={120}
                 className="focus:ring-inset"
-                placeholder={`Papermark - open-source document sharing infrastructure.`}
+                placeholder={`${BRAND_NAME} - Secure document sharing and data rooms.`}
                 value={metaTitle || ""}
                 onChange={(e) => {
                   setData({ ...data, metaTitle: e.target.value });
@@ -437,7 +437,7 @@ export default function OGSection({
                 rows={3}
                 maxLength={240}
                 className="focus:ring-inset"
-                placeholder={`Papermark is an open-source document sharing infrastructure for modern teams.`}
+                placeholder={`Secure document sharing and data rooms.`}
                 value={metaDescription || ""}
                 onChange={(e) => {
                   setData({

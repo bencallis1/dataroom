@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { motion } from "motion/react";
 
 import { STAGGER_CHILD_VARIANTS } from "@/lib/constants";
+import { BRAND_NAME } from "@/lib/branding";
 
 import { Button } from "../ui/button";
 
@@ -32,14 +33,14 @@ export default function Intro() {
           variants={STAGGER_CHILD_VARIANTS}
         >
           Welcome to{" "}
-          <span className="font-bold tracking-tighter">Papermark</span>
+          <span className="font-bold tracking-tighter">{BRAND_NAME}</span>
         </motion.h1>
         <motion.p
           className="max-w-md text-accent-foreground/80 transition-colors sm:text-lg"
           variants={STAGGER_CHILD_VARIANTS}
         >
-          Papermark gives you the power to securely share your documents with an
-          impression that lasts.
+          {BRAND_NAME} gives you the power to securely share your documents with
+          an impression that lasts.
         </motion.p>
         <motion.div
           variants={STAGGER_CHILD_VARIANTS}

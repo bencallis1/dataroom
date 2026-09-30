@@ -270,7 +270,7 @@ export default function DeckGeneratorUpload() {
                     const blob = await response.blob();
                     const file = new File(
                       [blob],
-                      "papermark-example-document.pdf",
+                      "example-document.pdf",
                       {
                         type: "application/pdf",
                       },

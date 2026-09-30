@@ -1,3 +1,4 @@
+import { BRAND_NAME } from "@/lib/branding";
 import { sendEmail } from "@/lib/resend";
 
 import UpgradeOneMonthCheckinEmail from "@/components/emails/upgrade-one-month-checkin";
@@ -18,8 +19,7 @@ export const sendUpgradeOneMonthCheckinEmail = async (
   try {
     await sendEmail({
       to: email as string,
-      subject: "Check-in from Papermark",
-      from: "Marc Seitz <marc@papermark.com>",
+      subject: `Check-in from ${BRAND_NAME}`,
       react: emailTemplate,
       test: process.env.NODE_ENV === "development",
     });

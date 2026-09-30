@@ -1,3 +1,4 @@
+import { BRAND_NAME } from "@/lib/branding";
 import { jackson, jacksonProduct } from "@/lib/jackson";
 import prisma from "@/lib/prisma";
 import { CustomUser } from "@/lib/types";
@@ -119,7 +120,7 @@ export async function POST(
     const result = await directorySyncController.directories.create({
       tenant: teamId,
       product: jacksonProduct,
-      name: name || "Papermark SCIM Directory",
+      name: name || `${BRAND_NAME} SCIM Directory`,
       type: type || "azure-scim-v2",
     });
 

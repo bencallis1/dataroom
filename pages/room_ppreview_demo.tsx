@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 
+import { BRAND_NAME } from "@/lib/branding";
+
 import { ViewFolderTree } from "@/components/datarooms/folders";
 import DocumentCard from "@/components/view/dataroom/document-card";
 import FolderCard from "@/components/view/dataroom/folder-card";
@@ -61,7 +63,7 @@ export default function ViewPage() {
                   />
                 ) : (
                   <div className="text-2xl font-bold tracking-tighter text-white">
-                    Papermark
+                    {BRAND_NAME}
                   </div>
                 )}
               </div>

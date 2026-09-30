@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { mutate } from "swr";
 import { useDebounce } from "use-debounce";
 
+import { BRAND_HOST } from "@/lib/branding";
 import { useBrand, useDataroomBrand } from "@/lib/swr/use-brand";
 import { useDataroom } from "@/lib/swr/use-dataroom";
 import { cn, convertDataUrlToFile, uploadImage } from "@/lib/utils";
@@ -299,10 +300,8 @@ export default function DataroomBrandPage() {
               Customize your data room&apos;s branding for a cohesive user
               experience.
               <BadgeTooltip
-                linkText="Click here"
                 content="How to customize data room branding?"
                 key="branding"
-                link="https://www.papermark.com/help/article/dataroom-branding"
               >
                 <CircleHelpIcon className="h-4 w-4 shrink-0 text-muted-foreground hover:text-foreground" />
               </BadgeTooltip>
@@ -820,7 +819,7 @@ export default function DataroomBrandPage() {
                             </svg>
                           </div>
                           <span className="whitespace-normal text-xs text-muted-foreground">
-                            papermark.com/dataroom/...
+                            {BRAND_HOST}/dataroom/...
                           </span>
                         </div>
                       </div>
@@ -888,7 +887,7 @@ export default function DataroomBrandPage() {
                             </svg>
                           </div>
                           <span className="whitespace-normal text-xs text-muted-foreground">
-                            papermark.com/view/...
+                            {BRAND_HOST}/view/...
                           </span>
                         </div>
                       </div>
@@ -955,7 +954,7 @@ export default function DataroomBrandPage() {
                             </svg>
                           </div>
                           <span className="whitespace-normal text-xs text-muted-foreground">
-                            papermark.com/view/...
+                            {BRAND_HOST}/view/...
                           </span>
                         </div>
                       </div>

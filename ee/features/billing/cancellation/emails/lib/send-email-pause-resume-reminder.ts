@@ -1,3 +1,4 @@
+import { BRAND_NAME } from "@/lib/branding";
 import { sendEmail } from "@/lib/resend";
 
 import PauseResumeReminderEmail from "../components/pause-resume-reminder";
@@ -22,7 +23,7 @@ export const sendEmailPauseResumeReminder = async ({
     await sendEmail({
       to: teamMemberEmails[0], // Send to first team member
       cc: teamMemberEmails.slice(1).join(","), // Send to all other team members
-      subject: "Your Papermark subscription will resume in 3 days",
+      subject: `Your ${BRAND_NAME} subscription will resume in 3 days`,
       react: PauseResumeReminderEmail({
         teamName,
         plan,

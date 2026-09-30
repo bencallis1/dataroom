@@ -3,6 +3,7 @@ import { JSXElementConstructor, ReactElement } from "react";
 import { render, toPlainText } from "@react-email/render";
 import { Resend } from "resend";
 
+import { EMAIL_FROM, SUPPORT_EMAIL } from "@/lib/branding";
 import prisma from "@/lib/prisma";
 import { log, nanoid } from "@/lib/utils";
 
@@ -45,24 +46,14 @@ export const sendEmail = async ({
   const html = await render(react);
   const plainText = toPlainText(html);
 
-  const fromAddress =
-    from ??
-    (marketing
-      ? "Marc from Papermark <marc@updates.papermark.com>"
-      : system
-        ? "Papermark <system@papermark.com>"
-        : verify
-          ? "Papermark <system@verify.papermark.com>"
-          : !!scheduledAt
-            ? "Marc Seitz <marc@papermark.com>"
-            : "Marc from Papermark <marc@papermark.com>");
+  const fromAddress = from ?? EMAIL_FROM;
 
   try {
     const { data, error } = await resend.emails.send({
       from: fromAddress,
       to: test ? "delivered@resend.dev" : to,
       cc: cc,
-      replyTo: marketing ? "marc@papermark.com" : replyTo,
+      replyTo: replyTo ?? (SUPPORT_EMAIL || undefined),
       subject,
       react,
       scheduledAt,
