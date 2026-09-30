@@ -1,11 +1,6 @@
 import { BasePlan } from "../swr/use-billing";
 
-type TQueueConfig = {
-  name: string;
-  concurrencyLimit: number;
-};
-
-const concurrencyConfig: Record<string, number> = {
+export const CONVERSION_CONCURRENCY: Record<string, number> = {
   free: 1,
   starter: 1,
   pro: 2,
@@ -15,11 +10,11 @@ const concurrencyConfig: Record<string, number> = {
   "datarooms-premium": 10,
 };
 
-export const conversionQueue = (plan: string): TQueueConfig => {
+// Returns the name of a queue defined in lib/trigger/queues.ts.
+// Unknown plans (e.g. "trial") fall back to the free queue.
+export const conversionQueue = (plan: string): string => {
   const planName = plan.split("+")[0] as BasePlan;
+  const queuePlan = planName in CONVERSION_CONCURRENCY ? planName : "free";
 
-  return {
-    name: `conversion-${planName}`,
-    concurrencyLimit: concurrencyConfig[planName],
-  };
+  return `conversion-${queuePlan}`;
 };
